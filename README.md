@@ -1,9 +1,22 @@
 # קֶשֶׁר · CRM קהילתי — אב-טיפוס
 
 מערכת ניהול קהילות יהודיות בתפוצות, על תשתית ההסתדרות הציונית העולמית (WZO).
-אב-טיפוס להדגמה — לא מערכת עובדת. דף אינטראקטיבי אחד עם ארבעה מסכים.
+אב-טיפוס להדגמה — לא מערכת עובדת. דף אינטראקטיבי אחד עם ארבעה מסכים, **דו-לשוני מלא (עברית / English)**.
 
 > **Demo live:** https://dovheller.github.io/WZO
+
+---
+
+## דו-לשוניות
+
+לכל מסך יש מתג שפה בראש הדף — **עברית / English**. החלפה משנה את:
+- כיוון הטקסט (RTL ↔ LTR) על כל הדף
+- כל המחרוזות, כותרות, תאריכים, שמות חברים ושמות אירועים
+- כיוון אייקוני החצים (`<` ↔ `>`)
+- מיקום אלמנטים דקורטיביים שמתבססים על inline-start/end
+- שמות הערים על מפת העולם וכותרות היבשות
+
+התשתית: `LangContext` של React, פונקציית `tx(he, en)` לתרגום inline, ועדכון אוטומטי של `document.documentElement.dir`.
 
 ---
 
@@ -58,13 +71,14 @@ python3 -m http.server 8000
 ```
 .
 ├── index.html          # נקודת כניסה — טוען פונטים, React, וה-JSX
-├── styles.css          # כל ה-CSS — טוקנים + מסכים + responsive
+├── styles.css          # כל ה-CSS — טוקנים + מסכים + responsive + logical properties
+├── i18n.jsx            # מערכת שפות — LangContext + hook useTx
 ├── icons.jsx           # ספריית line-icons (window.I)
 ├── kiosk.jsx           # מסך 1 — לוח קהילתי
 ├── member.jsx          # מסך 2 — מסך החבר
 ├── admin.jsx           # מסך 3 — ניהול קהילה
 ├── super.jsx           # מסך 4 — מסך-העל WZO
-├── app.jsx             # shell, ניווט בטאבים, footer
+├── app.jsx             # shell, ניווט בטאבים, מתג שפה, footer
 └── README.md
 ```
 
