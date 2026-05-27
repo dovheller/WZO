@@ -14,14 +14,14 @@ const Shell = () => {
     { id: "kiosk", icon: <I.Board />, he: "לוח קהילתי", en: "Community Board" },
     { id: "member", icon: <I.User />, he: "מסך החבר", en: "Member View" },
     { id: "admin", icon: <I.Settings />, he: "ניהול קהילה", en: "Admin" },
-    { id: "super", icon: <I.Globe />, he: "מסך-העל · WZO", en: "Super-Admin · WZO" },
+    { id: "super", icon: <I.Globe />, he: "מסך-העל · המחלקה", en: "Super-Admin · Dept." },
   ];
 
   const tenant = {
     kiosk: { he: { n: "קהילת אהבת ישראל", w: "לונדון" }, en: { n: "Ahavat Yisrael", w: "London" } },
     member: { he: { n: "קהילת אהבת ישראל", w: "לונדון" }, en: { n: "Ahavat Yisrael", w: "London" } },
     admin: { he: { n: "קהילת אהבת ישראל", w: "לונדון" }, en: { n: "Ahavat Yisrael", w: "London" } },
-    super: { he: { n: "כל הקהילות", w: "רשת WZO גלובלית" }, en: { n: "All communities", w: "Global WZO network" } },
+    super: { he: { n: "כל הקהילות", w: "רשת המחלקה — תפוצות" }, en: { n: "All communities", w: "Diaspora Department network" } },
   }[tab];
 
   const t = tx(tenant.he, tenant.en);
@@ -35,8 +35,18 @@ const Shell = () => {
               <I.StarOfDavid width="22" height="22" />
             </div>
             <div className="text-block">
-              <div className="he">ההסתדרות הציונית העולמית</div>
-              <div className="en">World Zionist Organization</div>
+              <div className="dept">
+                {tx(
+                  "המחלקה לגיוס משאבים וחיזוק הקשר עם קהילות בתפוצות",
+                  "Department for Resource Development & Diaspora Communities"
+                )}
+              </div>
+              <div className="umbrella">
+                {tx(
+                  "ההסתדרות הציונית העולמית",
+                  "World Zionist Organization"
+                )}
+              </div>
             </div>
           </div>
           <div className="product-name">
@@ -99,16 +109,23 @@ const Shell = () => {
           <span className="pill">{tx("אב-טיפוס · DEMO", "PROTOTYPE · DEMO")}</span>
           <span>
             {tx(
-              "קֶשֶׁר — מערכת CRM קהילתית של ההסתדרות הציונית העולמית · Multi-Tenant על תשתית אחת",
-              "Kesher — Community CRM by the World Zionist Organization · Multi-tenant on a single platform"
+              "קֶשֶׁר — CRM קהילתי של המחלקה לגיוס משאבים וחיזוק הקשר עם קהילות בתפוצות · ההסתדרות הציונית העולמית",
+              "Kesher — Community CRM by the Department for Resource Development & Diaspora Communities · World Zionist Organization"
             )}
           </span>
         </div>
-        <div>
-          {tx(
-            "המערכת תושק כדו-לשונית · עברית 🇮🇱 / English 🇬🇧 · RTL ↔ LTR מלא",
-            "Launching bilingual · Hebrew 🇮🇱 / English 🇬🇧 · Full RTL ↔ LTR support"
-          )}
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <span style={{ opacity: 0.75 }}>
+            {tx("דו-לשוני · עברית 🇮🇱 / English 🇬🇧 · RTL ↔ LTR", "Bilingual · Hebrew 🇮🇱 / English 🇬🇧 · RTL ↔ LTR")}
+          </span>
+          <span className="tech-partner" title={tx("שם השותף הטכנולוגי — דב יאמת את האיות הסופי", "Tech partner name — Dov to confirm final spelling")}>
+            <span className="ph-dot"></span>
+            {tx("מבית", "Built by")}
+            <strong style={{ color: "#fff", fontWeight: 800 }}>
+              {tx("הלך / הלר דיגיטל", "Halech / Heller Digital")}
+            </strong>
+            <span className="ph-tag">{tx("לאימות", "TBC")}</span>
+          </span>
         </div>
       </footer>
     </div>

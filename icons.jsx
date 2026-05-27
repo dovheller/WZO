@@ -159,6 +159,68 @@ const I = {
       <path d="M12 3v15M5 9v9M19 9v9M8 6v12M16 6v12M3 18h18"/>
     </svg>
   ),
+  Gift: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M5 12v9h14v-9"/>
+      <path d="M12 8c-2.5 0-4-1.2-4-3a2 2 0 0 1 4 0c0 1.8-1.5 3-4 3M12 8c2.5 0 4-1.2 4-3a2 2 0 0 0-4 0c0 1.8 1.5 3 4 3"/>
+    </svg>
+  ),
+  Award: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <circle cx="12" cy="9" r="6"/><path d="M8.2 13.5L6 22l6-3 6 3-2.2-8.5"/>
+    </svg>
+  ),
+  Scroll: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M5 8a3 3 0 0 1 3-3h11v11a3 3 0 0 0 3 3h-9a3 3 0 0 1-3-3V8z"/>
+      <path d="M5 8v8a3 3 0 0 0 3 3M8 9h7M8 13h5"/>
+    </svg>
+  ),
+  Handshake: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M11 17l2 2 4-4 4-4-3-3-2 2-4-4-4 4-3 3 4 4 2-2z"/><path d="M9 14l3-3"/>
+    </svg>
+  ),
+  Dice: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <rect x="3" y="3" width="18" height="18" rx="3"/>
+      <circle cx="8" cy="8" r="1" fill="currentColor"/><circle cx="16" cy="8" r="1" fill="currentColor"/>
+      <circle cx="12" cy="12" r="1" fill="currentColor"/>
+      <circle cx="8" cy="16" r="1" fill="currentColor"/><circle cx="16" cy="16" r="1" fill="currentColor"/>
+    </svg>
+  ),
+  TorahScroll: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <rect x="3" y="4" width="3" height="16" rx="1"/><rect x="18" y="4" width="3" height="16" rx="1"/>
+      <path d="M6 6h12v12H6z"/><path d="M9 9h6M9 12h6M9 15h4"/>
+    </svg>
+  ),
+  Store2: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M3 9l1.5-5h15L21 9"/><path d="M3 9v11h18V9"/><path d="M9 20v-5h6v5"/>
+    </svg>
+  ),
+  ChevDown: (p) => (
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M6 9l6 6 6-6"/>
+    </svg>
+  ),
+  Pencil: (p) => (
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M14 4l6 6L8 22H2v-6L14 4z"/>
+    </svg>
+  ),
+  Filter: (p) => (
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M3 5h18l-7 9v6l-4-2v-4L3 5z"/>
+    </svg>
+  ),
+  Family: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <circle cx="7" cy="6" r="2.5"/><circle cx="17" cy="6" r="2.5"/><circle cx="12" cy="14" r="2"/>
+      <path d="M3 14c0-2.2 1.8-4 4-4s4 1.8 4 4M13 14c0-2.2 1.8-4 4-4s4 1.8 4 4M9 21c0-1.7 1.3-3 3-3s3 1.3 3 3"/>
+    </svg>
+  ),
 };
 
 window.I = I;

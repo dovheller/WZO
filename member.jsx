@@ -137,6 +137,13 @@ const MemberScreen = () => {
             </div>
           </div>
 
+          <div className="member-feat-grid">
+            <AliyotMember />
+            <AvotMember />
+            <GemachMember />
+            <PointsRafflesMember />
+          </div>
+
           <div className="history-list">
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6 }}>
               <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 18, color: "var(--c-blue-deep)", margin: 0 }}>

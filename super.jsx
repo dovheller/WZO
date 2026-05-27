@@ -58,15 +58,15 @@ const SuperAdminScreen = () => {
     { he: "תבנית 'חג שבועות' הופעלה ע\"י 7 קהילות במקביל",
       en: "\"Shavuot\" template activated by 7 communities in parallel",
       time_he: "לפני שעה", time_en: "1 hour ago", c: "", icon: <I.Bolt /> },
-    { he: "ההסתדרות שיגרה עדכון מערכת לכל הרשת · v2.4.1",
-      en: "WZO pushed a system update to the entire network · v2.4.1",
+    { he: "המחלקה שיגרה עדכון מערכת לכל הרשת · v2.4.1",
+      en: "The Department pushed a system update to the entire network · v2.4.1",
       time_he: "לפני 3 שעות", time_en: "3 hours ago", c: "", icon: <I.Settings /> },
   ];
 
   return (
     <section className="screen" data-screen-label={tx("04 מסך-העל", "04 Super-admin")}>
       <div className="section-eyebrow">
-        {tx("מסך 4 · מסך-העל של ההסתדרות הציונית העולמית", "Screen 4 · WZO Network Super-Admin")}
+        {tx("מסך 4 · מסך-העל של המחלקה לגיוס משאבים וחיזוק הקשר עם קהילות בתפוצות", "Screen 4 · Diaspora Department — network super-admin")}
       </div>
 
       <div className="super-hero">
@@ -80,8 +80,8 @@ const SuperAdminScreen = () => {
             <h1>{tx("284 קהילות. עולם אחד.", "284 communities. One world.")}</h1>
             <p className="sub">
               {tx(
-                "תמונת מצב חיה של כל הקהילות היהודיות המנוהלות תחת תשתית ההסתדרות — מהבית לבית, מהיבשת ליבשת.",
-                "A live snapshot of every Jewish community managed on the WZO platform — from home to home, continent to continent."
+                "תמונת מצב חיה של כל הקהילות המנוהלות תחת תשתית המחלקה — מהבית לבית, מהיבשת ליבשת.",
+                "A live snapshot of every community managed on the Department platform — home to home, continent to continent."
               )}
             </p>
           </div>
