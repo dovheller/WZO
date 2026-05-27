@@ -1,0 +1,4784 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>קֶשֶׁר v2 · CRM קהילתי — המחלקה לגיוס משאבים וחיזוק הקשר עם קהילות בתפוצות</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700;800&family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+/* ---------- Tokens ---------- */
+:root {
+  --c-blue: #1E4382;
+  --c-blue-dark: #1C3B77;
+  --c-blue-deep: #151D66;
+  --c-cyan-light: #A7E3F6;
+  --c-cyan: #18A1DA;
+  --c-amber: #D88B00;
+  --c-amber-hover: #B97700;
+  --c-mustard: #DBA62A;
+  --c-text: #34373E;
+  --c-text-strong: #141413;
+  --c-text-muted: #808080;
+  --c-card: #FAF9F5;
+  --c-bg: #FFFFFF;
+  --c-border: #DDDDDD;
+  --c-border-soft: #ECECEC;
+  --c-success: #2E7D5B;
+  --c-danger: #B23A48;
+
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 16px;
+  --r-xl: 22px;
+
+  --sh-card: 0 1px 0 rgba(20,29,102,0.04), 0 6px 24px -10px rgba(20,29,102,0.10);
+  --sh-deep: 0 10px 40px -12px rgba(20,29,102,0.35);
+
+  --font-display: "Assistant", "Heebo", system-ui, sans-serif;
+  --font-body: "Heebo", "Assistant", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+  color: var(--c-text);
+  background: #F4F5F8;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+html[dir="rtl"], html[dir="rtl"] body { direction: rtl; }
+html[dir="ltr"], html[dir="ltr"] body { direction: ltr; }
+
+button { font-family: inherit; cursor: pointer; }
+a { color: inherit; }
+
+/* ---------- App shell ---------- */
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #fff;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.topbar-inner {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.brand-mark {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.brand-mark .star {
+  width: 38px; height: 38px;
+  background: var(--c-blue);
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  color: white;
+}
+.brand-mark .star svg { width: 22px; height: 22px; }
+.brand-mark .text-block {
+  line-height: 1.05;
+}
+.brand-mark .text-block .he {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 17px;
+  color: var(--c-blue-deep);
+  letter-spacing: -0.01em;
+}
+.brand-mark .text-block .en {
+  font-family: var(--font-body);
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--c-text-muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.product-name {
+  padding-inline-start: 18px;
+  margin-inline-start: 6px;
+  border-inline-start: 1px solid var(--c-border);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--c-text);
+  white-space: nowrap;
+}
+.product-name span {
+  color: var(--c-amber);
+  font-weight: 800;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-inline-start: auto;
+  background: #F4F5F8;
+  padding: 4px;
+  border-radius: 12px;
+}
+.tab {
+  border: none;
+  background: transparent;
+  padding: 10px 18px;
+  border-radius: 9px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--c-text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+.tab:hover { color: var(--c-blue); }
+.tab.active {
+  background: var(--c-blue);
+  color: white;
+  box-shadow: 0 2px 8px -2px rgba(30,67,130,0.4);
+}
+.tab .tab-icon { opacity: 0.9; }
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.tenant-switcher {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border: 1px solid var(--c-border);
+  border-radius: 10px;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-text);
+}
+.tenant-switcher > div { white-space: nowrap; }
+.super-hero .time-block .now { white-space: nowrap; }
+.super-hero .time-block .where { white-space: nowrap; }
+.tenant-switcher .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--c-amber);
+}
+.icon-btn {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--c-border);
+  background: #fff;
+  display: grid; place-items: center;
+  color: var(--c-text);
+  position: relative;
+}
+.icon-btn .pip {
+  position: absolute;
+  top: 5px; right: 5px;
+  width: 8px; height: 8px;
+  background: var(--c-amber);
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+/* ---- Language toggle ---- */
+.lang-toggle {
+  display: inline-flex;
+  background: #F4F5F8;
+  border-radius: 999px;
+  padding: 3px;
+  gap: 2px;
+}
+.lang-toggle button {
+  border: none;
+  background: transparent;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--c-text);
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: all 0.15s ease;
+}
+.lang-toggle button:hover { color: var(--c-blue); }
+.lang-toggle button.active {
+  background: var(--c-blue);
+  color: white;
+  box-shadow: 0 1px 4px -1px rgba(30,67,130,0.4);
+}
+
+/* When LTR — bilingual brand block flips primary/secondary */
+html[dir="ltr"] .brand-mark .text-block .he {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--c-text-muted);
+  letter-spacing: 0.02em;
+  text-transform: none;
+  order: 2;
+}
+html[dir="ltr"] .brand-mark .text-block .en {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--c-blue-deep);
+  letter-spacing: -0.01em;
+  text-transform: none;
+  order: 1;
+}
+html[dir="ltr"] .brand-mark .text-block {
+  display: flex;
+  flex-direction: column;
+}
+
+/* In LTR, flip "forward" arrow icons so chevrons point the right way */
+html[dir="ltr"] .arrow > svg,
+html[dir="ltr"] svg.lt-flip {
+  transform: scaleX(-1);
+}
+
+/* Tweak iconography for LTR text-flow */
+html[dir="ltr"] .ticker .scroll {
+  animation-direction: reverse;
+}
+
+/* ---------- Screen container ---------- */
+.screen {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 28px;
+  width: 100%;
+}
+
+.app-footer {
+  background: var(--c-blue-deep);
+  color: rgba(255,255,255,0.85);
+  font-size: 12.5px;
+  padding: 18px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+}
+.app-footer .left { display: flex; align-items: center; gap: 14px; }
+.app-footer .pill {
+  background: rgba(167,227,246,0.14);
+  color: var(--c-cyan-light);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+}
+
+/* ---------- Reusable card ---------- */
+.card {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-card);
+}
+.card-cream {
+  background: var(--c-card);
+}
+.card-pad { padding: 22px; }
+
+.card-eyebrow {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--c-cyan);
+  letter-spacing: 0.06em;
+  margin: 0 0 6px 0;
+}
+.card-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 22px;
+  color: var(--c-blue-deep);
+  margin: 0 0 14px 0;
+  letter-spacing: -0.01em;
+}
+
+/* ---------- CTA button ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 18px;
+  border-radius: 10px;
+  border: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  transition: all 0.16s ease;
+  text-decoration: none;
+}
+.btn-primary {
+  background: var(--c-amber);
+  color: #fff;
+  box-shadow: 0 2px 0 rgba(0,0,0,0.04), 0 4px 14px -6px rgba(216,139,0,0.6);
+}
+.btn-primary:hover { background: var(--c-amber-hover); transform: translateY(-1px); }
+.btn-ghost {
+  background: transparent;
+  color: var(--c-blue);
+  border: 1px solid var(--c-border);
+}
+.btn-ghost:hover { background: #F4F5F8; }
+.btn-blue {
+  background: var(--c-blue);
+  color: #fff;
+}
+.btn-blue:hover { background: var(--c-blue-dark); }
+.btn-sm { padding: 7px 12px; font-size: 12.5px; }
+.btn-lg { padding: 14px 24px; font-size: 16px; }
+
+/* ---------- Pattern banner ---------- */
+.pattern-banner {
+  background: var(--c-blue-dark);
+  color: white;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+}
+.pattern-banner::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(167,227,246,0.18) 1px, transparent 1.5px);
+  background-size: 22px 22px;
+  pointer-events: none;
+}
+.pattern-banner > * { position: relative; z-index: 1; }
+
+.tri-pattern {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.18;
+}
+
+/* ---------- Pills / chips / tags ---------- */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #EEF1F7;
+  color: var(--c-blue-dark);
+}
+.tag-amber { background: rgba(216,139,0,0.12); color: var(--c-amber); }
+.tag-cyan { background: rgba(24,161,218,0.12); color: var(--c-cyan); }
+.tag-mustard { background: rgba(219,166,42,0.16); color: #8a6510; }
+.tag-success { background: rgba(46,125,91,0.12); color: var(--c-success); }
+.tag-danger { background: rgba(178,58,72,0.12); color: var(--c-danger); }
+
+/* ---------- Decorative magen david motif (simple) ---------- */
+.magen-corner {
+  position: absolute;
+  width: 220px; height: 220px;
+  pointer-events: none;
+  opacity: 0.10;
+}
+
+/* ---------- KIOSK SCREEN 1 ---------- */
+.kiosk {
+  background: #fff;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  border: 1px solid var(--c-border);
+}
+.kiosk-hero {
+  background: linear-gradient(135deg, #1C3B77 0%, #151D66 100%);
+  color: #fff;
+  padding: 28px 32px;
+  position: relative;
+  overflow: hidden;
+}
+.kiosk-hero-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 28px;
+  align-items: center;
+}
+.kiosk-community {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.kiosk-community .crest {
+  width: 72px; height: 72px;
+  background: rgba(167,227,246,0.16);
+  border: 1.5px solid rgba(167,227,246,0.4);
+  border-radius: 18px;
+  display: grid; place-items: center;
+  color: var(--c-cyan-light);
+}
+.kiosk-community .name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 30px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+.kiosk-community .place {
+  font-size: 14.5px;
+  color: var(--c-cyan-light);
+  margin-top: 4px;
+  letter-spacing: 0.02em;
+}
+.kiosk-parasha {
+  text-align: center;
+}
+.kiosk-parasha .label {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--c-cyan-light);
+  text-transform: uppercase;
+}
+.kiosk-parasha .name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 44px;
+  letter-spacing: -0.02em;
+  margin-top: 6px;
+  line-height: 1;
+}
+.kiosk-parasha .hebdate {
+  margin-top: 6px;
+  color: rgba(255,255,255,0.75);
+  font-size: 14px;
+}
+.kiosk-shabbat {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(167,227,246,0.25);
+  border-radius: var(--r-md);
+  padding: 14px 16px;
+}
+.kiosk-shabbat .row {
+  display: flex; justify-content: space-between;
+  padding: 6px 0;
+  align-items: center;
+  border-bottom: 1px dashed rgba(167,227,246,0.18);
+}
+.kiosk-shabbat .row:last-child { border-bottom: none; }
+.kiosk-shabbat .row .label {
+  font-size: 13px;
+  color: var(--c-cyan-light);
+  display: flex; align-items: center; gap: 8px;
+}
+.kiosk-shabbat .row .time {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 22px;
+  font-variant-numeric: tabular-nums;
+}
+
+.kiosk-body {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 0;
+  background: #fff;
+}
+.kiosk-col {
+  padding: 24px 28px;
+}
+.kiosk-col + .kiosk-col {
+  border-inline-start: 1px solid var(--c-border);
+}
+.kiosk-section-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 22px;
+  color: var(--c-blue-deep);
+  margin: 0 0 14px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.kiosk-section-title .underline-cyan {
+  height: 6px; width: 22px;
+  background: var(--c-cyan-light);
+  border-radius: 4px;
+}
+
+.event-row {
+  display: grid;
+  grid-template-columns: 78px 1fr auto;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--c-border-soft);
+  align-items: center;
+}
+.event-row:last-child { border-bottom: none; }
+.event-date {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: 10px;
+  padding: 8px 4px;
+  text-align: center;
+}
+.event-date .d {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 26px;
+  color: var(--c-blue);
+  line-height: 1;
+}
+.event-date .m {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--c-text-muted);
+  margin-top: 4px;
+  letter-spacing: 0.06em;
+}
+.event-meta .name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--c-text-strong);
+  margin: 0;
+}
+.event-meta .sub {
+  font-size: 13px;
+  color: var(--c-text-muted);
+  margin-top: 4px;
+}
+.event-action {
+  text-align: end;
+}
+.event-time {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--c-blue);
+  font-variant-numeric: tabular-nums;
+}
+
+.kiddush-card {
+  background: linear-gradient(120deg, #FAF9F5 0%, #FFF9EC 100%);
+  border: 1px solid #F0E4C7;
+  border-radius: var(--r-lg);
+  padding: 18px 20px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+.kiddush-card .icon-wrap {
+  width: 56px; height: 56px;
+  background: rgba(216,139,0,0.12);
+  border-radius: 14px;
+  display: grid; place-items: center;
+  color: var(--c-amber);
+  flex-shrink: 0;
+}
+.kiddush-card .label {
+  font-size: 12px;
+  color: var(--c-amber);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.kiddush-card .who {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 22px;
+  color: var(--c-text-strong);
+  line-height: 1.15;
+  margin-top: 2px;
+}
+.kiddush-card .occasion {
+  font-size: 13px;
+  color: var(--c-text);
+  margin-top: 2px;
+}
+
+.business-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+.business-card {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.business-card .biz-icon {
+  width: 38px; height: 38px;
+  background: var(--c-card);
+  border-radius: 9px;
+  display: grid; place-items: center;
+  color: var(--c-blue);
+  flex-shrink: 0;
+}
+.business-card .biz-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--c-text-strong);
+  line-height: 1.1;
+}
+.business-card .biz-trade {
+  font-size: 12px;
+  color: var(--c-text-muted);
+  margin-top: 2px;
+}
+
+.ticker {
+  background: var(--c-blue);
+  color: #fff;
+  padding: 10px 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.ticker .badge {
+  background: var(--c-amber);
+  color: #fff;
+  font-weight: 800;
+  font-size: 11.5px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+.ticker .scroll {
+  display: inline-flex;
+  gap: 36px;
+  animation: tickerScroll 38s linear infinite;
+  padding-right: 0;
+}
+.ticker .scroll span {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.ticker .scroll span::before {
+  content: "";
+  width: 6px; height: 6px;
+  background: var(--c-cyan-light);
+  border-radius: 50%;
+}
+@keyframes tickerScroll {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+/* ---------- MEMBER SCREEN 2 ---------- */
+.member-wrap {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+}
+.member-side {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.member-card-hero {
+  background: linear-gradient(160deg, #1E4382 0%, #151D66 100%);
+  color: #fff;
+  border-radius: var(--r-lg);
+  padding: 22px;
+  position: relative;
+  overflow: hidden;
+}
+.member-card-hero .avatar {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: var(--c-cyan-light);
+  color: var(--c-blue-deep);
+  display: grid; place-items: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 24px;
+  margin-bottom: 14px;
+}
+.member-card-hero .hi {
+  font-size: 12.5px;
+  color: var(--c-cyan-light);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.member-card-hero .name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 22px;
+  margin: 4px 0 2px;
+  letter-spacing: -0.01em;
+}
+.member-card-hero .role {
+  font-size: 13px;
+  color: rgba(255,255,255,0.78);
+}
+.member-card-hero .stats-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 18px;
+  border-top: 1px solid rgba(167,227,246,0.2);
+  padding-top: 14px;
+}
+.member-card-hero .stat {
+  flex: 1;
+}
+.member-card-hero .stat .n {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 22px;
+  color: var(--c-cyan-light);
+  line-height: 1;
+}
+.member-card-hero .stat .l {
+  font-size: 11.5px;
+  color: rgba(255,255,255,0.7);
+  margin-top: 4px;
+}
+
+.alert-amber {
+  background: linear-gradient(180deg, #FFF6E2 0%, #FFEDC7 100%);
+  border: 1px solid #F2D58F;
+  border-radius: var(--r-lg);
+  padding: 18px;
+  position: relative;
+}
+.alert-amber .label {
+  display: flex; align-items: center; gap: 8px;
+  color: var(--c-amber);
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.alert-amber .amount {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 30px;
+  color: var(--c-text-strong);
+  margin: 8px 0 2px;
+}
+.alert-amber .what {
+  font-size: 13.5px;
+  color: var(--c-text);
+  margin-bottom: 14px;
+}
+.alert-amber .btn { width: 100%; }
+
+.quick-links {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.quick-links a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--c-border-soft);
+  text-decoration: none;
+  color: var(--c-text-strong);
+  font-weight: 600;
+  font-size: 14px;
+  font-family: var(--font-display);
+}
+.quick-links a:last-child { border-bottom: none; }
+.quick-links a:hover { background: var(--c-card); }
+.quick-links a .arrow {
+  margin-right: auto;
+  color: var(--c-text-muted);
+}
+
+.member-main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.greet-band {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.greet-band .greet-text {
+  font-family: var(--font-display);
+}
+.greet-band .greet-text .big {
+  font-weight: 800;
+  font-size: 22px;
+  color: var(--c-blue-deep);
+  letter-spacing: -0.01em;
+}
+.greet-band .greet-text .small {
+  font-weight: 500;
+  color: var(--c-text);
+  font-size: 14px;
+  margin-top: 2px;
+}
+.greet-band .time-pill {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.event-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+.member-event {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.15s ease;
+}
+.member-event:hover {
+  border-color: var(--c-blue);
+  box-shadow: var(--sh-card);
+}
+.member-event .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;}
+.member-event .ev-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 17px;
+  color: var(--c-text-strong);
+  margin: 0;
+  line-height: 1.2;
+}
+.member-event .ev-when {
+  font-size: 13px;
+  color: var(--c-text-muted);
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.member-event .ev-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+.member-event.registered {
+  background: linear-gradient(180deg, #F2FAF6 0%, #FAFEFB 100%);
+  border-color: #B6DBC5;
+}
+
+.history-list {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  padding: 22px;
+}
+.history-row {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--c-border-soft);
+  align-items: center;
+}
+.history-row:last-child { border-bottom: none; }
+.history-row .dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--c-cyan-light);
+  border: 2px solid var(--c-cyan);
+  margin: 0 auto;
+}
+.history-row .what {
+  font-weight: 600;
+  font-size: 14.5px;
+  color: var(--c-text-strong);
+}
+.history-row .when {
+  font-size: 12.5px;
+  color: var(--c-text-muted);
+  margin-top: 2px;
+}
+.history-row .tag-row { display: flex; gap: 6px; }
+
+/* ---------- ADMIN SCREEN 3 ---------- */
+.admin-wrap {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 24px;
+}
+.admin-sidebar {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  padding: 14px 10px;
+  height: fit-content;
+  position: sticky;
+  top: 90px;
+}
+.admin-sidebar .group {
+  margin-bottom: 12px;
+}
+.admin-sidebar .group-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 11.5px;
+  color: var(--c-text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+}
+.admin-sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--c-text);
+  text-decoration: none;
+  margin-bottom: 2px;
+}
+.admin-sidebar a:hover { background: var(--c-card); color: var(--c-blue); }
+.admin-sidebar a.active {
+  background: var(--c-blue);
+  color: #fff;
+}
+.admin-sidebar a .count {
+  margin-right: auto;
+  background: var(--c-card);
+  color: var(--c-text);
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+.admin-sidebar a.active .count {
+  background: rgba(255,255,255,0.18);
+  color: #fff;
+}
+
+.admin-main { display: flex; flex-direction: column; gap: 18px; }
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.admin-header h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 26px;
+  color: var(--c-blue-deep);
+  margin: 0;
+}
+.admin-header .sub {
+  color: var(--c-text-muted);
+  font-size: 13.5px;
+  margin-top: 2px;
+}
+
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+.kpi-card {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  padding: 16px 18px;
+  position: relative;
+  overflow: hidden;
+}
+.kpi-card .label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--c-text-muted);
+  letter-spacing: 0.04em;
+}
+.kpi-card .value {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 32px;
+  color: var(--c-blue-deep);
+  margin: 4px 0 2px;
+  letter-spacing: -0.02em;
+}
+.kpi-card .delta {
+  font-size: 12px;
+  color: var(--c-success);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.kpi-card .delta.down { color: var(--c-danger); }
+.kpi-card .icon-corner {
+  position: absolute;
+  top: 14px; left: 14px;
+  width: 36px; height: 36px;
+  background: var(--c-card);
+  border-radius: 10px;
+  display: grid; place-items: center;
+  color: var(--c-blue);
+}
+.kpi-card.feature {
+  background: linear-gradient(135deg, #1E4382 0%, #151D66 100%);
+  color: #fff;
+  border: none;
+}
+.kpi-card.feature .label { color: var(--c-cyan-light); }
+.kpi-card.feature .value { color: #fff; }
+.kpi-card.feature .icon-corner {
+  background: rgba(167,227,246,0.18);
+  color: var(--c-cyan-light);
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 18px;
+}
+
+.events-table {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.events-table .head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--c-border);
+}
+.events-table .head h3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 17px;
+  color: var(--c-blue-deep);
+  margin: 0;
+}
+.events-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.events-table th {
+  text-align: start;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--c-text-muted);
+  padding: 12px 20px;
+  background: var(--c-card);
+  letter-spacing: 0.04em;
+}
+.events-table td {
+  padding: 14px 20px;
+  border-top: 1px solid var(--c-border-soft);
+  font-size: 13.5px;
+  color: var(--c-text);
+  vertical-align: middle;
+}
+.events-table td .ev-cell {
+  display: flex; flex-direction: column;
+}
+.events-table td .ev-cell .n {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--c-text-strong);
+  font-size: 14.5px;
+}
+.events-table td .ev-cell .s {
+  font-size: 12px;
+  color: var(--c-text-muted);
+  margin-top: 2px;
+}
+.events-table tr:hover td { background: #FBFBFD; }
+.attendance-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.attendance-bar .bar {
+  width: 80px;
+  height: 6px;
+  background: var(--c-border-soft);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.attendance-bar .bar > div {
+  height: 100%;
+  background: var(--c-blue);
+  border-radius: 3px;
+}
+.attendance-bar .num {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.donation-card {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  padding: 20px;
+}
+.donation-card h3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 17px;
+  color: var(--c-blue-deep);
+  margin: 0 0 4px;
+}
+.donation-card .help {
+  font-size: 12.5px;
+  color: var(--c-text-muted);
+  margin: 0 0 16px;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+.field label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--c-text-strong);
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+.field input, .field select, .field textarea {
+  font-family: var(--font-body);
+  font-size: 14px;
+  padding: 10px 12px;
+  border: 1px solid var(--c-border);
+  border-radius: 9px;
+  background: #fff;
+  color: var(--c-text-strong);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--c-blue);
+  box-shadow: 0 0 0 3px rgba(30,67,130,0.12);
+}
+.field.row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.field-amount-input {
+  position: relative;
+}
+.field-amount-input input { padding-inline-end: 32px; }
+.field-amount-input .symbol {
+  position: absolute;
+  inset-inline-end: 12px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--c-text-muted);
+  font-weight: 700;
+}
+.flow-strip {
+  background: var(--c-card);
+  border: 1px dashed #D2C99F;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 12.5px;
+  color: var(--c-text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.flow-strip .step {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  color: var(--c-blue-dark);
+}
+.flow-strip .step.active { color: var(--c-amber); }
+.flow-strip .arrow { color: var(--c-text-muted); }
+
+.templates-strip {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  padding: 18px 20px;
+}
+.templates-strip h3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 17px;
+  color: var(--c-blue-deep);
+  margin: 0 0 12px;
+}
+.template-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+.template-card {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: start;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.template-card:hover {
+  background: #fff;
+  border-color: var(--c-blue);
+  transform: translateY(-2px);
+  box-shadow: var(--sh-card);
+}
+.template-card .icon-pill {
+  display: inline-grid; place-items: center;
+  width: 32px; height: 32px;
+  background: #fff;
+  border-radius: 8px;
+  color: var(--c-blue);
+  margin-bottom: 8px;
+  border: 1px solid var(--c-border);
+}
+.template-card .name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 14.5px;
+  color: var(--c-text-strong);
+  margin: 0;
+}
+.template-card .meta {
+  font-size: 12px;
+  color: var(--c-text-muted);
+  margin-top: 4px;
+}
+
+.members-card {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  padding: 20px;
+}
+.members-card h3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 17px;
+  color: var(--c-blue-deep);
+  margin: 0 0 12px;
+}
+.member-row {
+  display: grid;
+  grid-template-columns: 38px 1fr auto auto;
+  gap: 12px;
+  padding: 10px 0;
+  align-items: center;
+  border-top: 1px solid var(--c-border-soft);
+}
+.member-row:first-of-type { border-top: none; }
+.member-row .av {
+  width: 36px; height: 36px;
+  background: var(--c-card);
+  color: var(--c-blue);
+  border-radius: 50%;
+  display: grid; place-items: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 13px;
+}
+.member-row .n {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--c-text-strong);
+}
+.member-row .meta {
+  font-size: 11.5px;
+  color: var(--c-text-muted);
+  margin-top: 1px;
+}
+.member-row .role-tag {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--c-text-muted);
+}
+.member-row .quick { color: var(--c-text-muted); }
+.member-row .quick:hover { color: var(--c-blue); }
+
+/* ---------- SUPER ADMIN SCREEN 4 ---------- */
+.super-hero {
+  background: linear-gradient(135deg, #151D66 0%, #1C3B77 100%);
+  color: #fff;
+  border-radius: var(--r-xl);
+  padding: 28px 32px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 22px;
+}
+.super-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(167,227,246,0.16) 1px, transparent 1.5px);
+  background-size: 28px 28px;
+}
+.super-hero > *:not(.magen-corner) { position: relative; z-index: 1; }
+.super-hero .row1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+}
+.super-hero .eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  color: var(--c-cyan-light);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: flex; align-items: center; gap: 10px;
+}
+.super-hero .eyebrow .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--c-amber);
+  box-shadow: 0 0 0 4px rgba(216,139,0,0.25);
+}
+.super-hero h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 38px;
+  letter-spacing: -0.02em;
+  margin: 0 0 6px;
+  line-height: 1.05;
+}
+.super-hero .sub {
+  font-size: 15px;
+  color: rgba(255,255,255,0.78);
+  max-width: 540px;
+}
+.super-hero .time-block {
+  text-align: end;
+}
+.super-hero .time-block .now {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 28px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+.super-hero .time-block .where {
+  font-size: 12.5px;
+  color: var(--c-cyan-light);
+  margin-top: 2px;
+}
+
+.super-kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 28px;
+}
+.super-kpi {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(167,227,246,0.2);
+  border-radius: var(--r-lg);
+  padding: 18px 20px;
+}
+.super-kpi .label {
+  font-size: 12px;
+  color: var(--c-cyan-light);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.super-kpi .value {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 40px;
+  margin: 6px 0 4px;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.super-kpi .delta {
+  font-size: 12.5px;
+  color: var(--c-cyan-light);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.super-kpi.amber .value { color: var(--c-mustard); }
+
+.super-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 22px;
+}
+
+.map-card {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.map-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--c-border);
+}
+.map-head h3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--c-blue-deep);
+  margin: 0;
+}
+.map-head .legend {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12.5px;
+  color: var(--c-text-muted);
+}
+.map-head .legend .swatch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.map-head .legend .swatch .d {
+  width: 10px; height: 10px; border-radius: 50%;
+}
+
+.world-stage {
+  position: relative;
+  background:
+    linear-gradient(180deg, #FAFBFE 0%, #F4F6FB 100%);
+  height: 460px;
+  overflow: hidden;
+}
+.world-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(30,67,130,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30,67,130,0.06) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.continent-label {
+  position: absolute;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  color: rgba(30,67,130,0.18);
+  text-transform: uppercase;
+  pointer-events: none;
+}
+.pin {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+.pin .glow {
+  position: absolute;
+  inset: -10px;
+  background: var(--c-amber);
+  border-radius: 50%;
+  opacity: 0.18;
+  animation: pulse 2.4s ease-out infinite;
+}
+.pin.large .glow { animation-duration: 2.8s; }
+.pin .dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--c-amber);
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(216,139,0,0.5);
+  position: relative;
+}
+.pin.large .dot {
+  width: 16px; height: 16px;
+  background: var(--c-blue);
+  box-shadow: 0 2px 8px rgba(30,67,130,0.5);
+}
+.pin.large .glow { background: var(--c-blue); }
+.pin .label {
+  position: absolute;
+  top: 16px; left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--c-text-strong);
+  box-shadow: 0 4px 10px rgba(20,29,102,0.08);
+}
+.pin.large .label {
+  background: var(--c-blue);
+  color: #fff;
+  border-color: var(--c-blue);
+  font-size: 11.5px;
+}
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.35; }
+  100% { transform: scale(2.8); opacity: 0; }
+}
+
+.leader-card {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  padding: 18px 20px;
+}
+.leader-card h3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 17px;
+  color: var(--c-blue-deep);
+  margin: 0 0 14px;
+}
+.leader-row {
+  display: grid;
+  grid-template-columns: 26px 1fr auto;
+  gap: 12px;
+  padding: 10px 0;
+  align-items: center;
+  border-top: 1px solid var(--c-border-soft);
+}
+.leader-row:first-of-type { border-top: none; }
+.leader-row .rank {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--c-text-muted);
+  text-align: center;
+}
+.leader-row.top .rank { color: var(--c-amber); }
+.leader-row .info .n {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--c-text-strong);
+}
+.leader-row .info .loc {
+  font-size: 12px;
+  color: var(--c-text-muted);
+  margin-top: 1px;
+}
+.leader-row .metric {
+  text-align: left;
+}
+.leader-row .metric .v {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--c-blue);
+  font-variant-numeric: tabular-nums;
+}
+.leader-row .metric .l {
+  font-size: 11px;
+  color: var(--c-text-muted);
+}
+
+.activity-feed {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  padding: 18px 20px;
+  margin-top: 18px;
+}
+.activity-feed h3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 17px;
+  color: var(--c-blue-deep);
+  margin: 0 0 12px;
+}
+.act-row {
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid var(--c-border-soft);
+  align-items: center;
+}
+.act-row:first-of-type { border-top: none; }
+.act-row .ico {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: var(--c-card);
+  color: var(--c-blue);
+  display: grid; place-items: center;
+}
+.act-row .ico.amber { background: rgba(216,139,0,0.12); color: var(--c-amber); }
+.act-row .ico.cyan { background: rgba(24,161,218,0.12); color: var(--c-cyan); }
+.act-row .text {
+  font-size: 13px;
+  color: var(--c-text);
+}
+.act-row .text strong { color: var(--c-text-strong); font-weight: 700; }
+.act-row .time {
+  font-size: 11.5px;
+  color: var(--c-text-muted);
+  white-space: nowrap;
+}
+
+/* ---------- Small things ---------- */
+.section-eyebrow {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--c-cyan);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.help-note {
+  font-size: 12px;
+  color: var(--c-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+input:focus-visible, button:focus-visible {
+  outline: 2px solid var(--c-amber);
+  outline-offset: 2px;
+}
+
+/* =================================================
+   RESPONSIVE — Tablet (≤ 1024px)
+   ================================================= */
+@media (max-width: 1024px) {
+  .screen { padding: 22px 18px; }
+  .topbar-inner { padding: 12px 18px; gap: 16px; flex-wrap: wrap; }
+  .product-name { display: none; }
+
+  .kiosk-hero-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+  .kiosk-body { grid-template-columns: 1fr; }
+  .kiosk-col + .kiosk-col { border-right: none; border-top: 1px solid var(--c-border); }
+
+  .member-wrap { grid-template-columns: 1fr; }
+  .admin-wrap { grid-template-columns: 1fr; }
+  .admin-sidebar { position: static; }
+  .admin-grid { grid-template-columns: 1fr; }
+  .super-grid { grid-template-columns: 1fr; }
+
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .super-kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .template-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* =================================================
+   RESPONSIVE — Mobile (≤ 720px)
+   ================================================= */
+@media (max-width: 720px) {
+  html, body { overflow-x: hidden; }
+
+  /* ---- Topbar collapses into two rows ---- */
+  .app-topbar { position: relative; }
+  .topbar-inner {
+    padding: 12px 14px;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .brand-mark .text-block .he { font-size: 14px; }
+  .brand-mark .text-block .en { font-size: 9px; }
+  .brand-mark .star { width: 34px; height: 34px; }
+
+  .product-name {
+    display: none;
+  }
+
+  .topbar-right {
+    margin-inline-start: auto;
+    gap: 8px;
+  }
+  .tenant-switcher {
+    padding: 6px 10px;
+    font-size: 12px;
+    gap: 6px;
+  }
+  .tenant-switcher > div { display: none !important; }
+  .icon-btn { width: 34px; height: 34px; }
+
+  .tabs {
+    order: 99;
+    margin-right: 0;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    padding: 8px 14px;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .tab .tab-icon svg { width: 16px; height: 16px; }
+
+  /* ---- Screen container ---- */
+  .screen { padding: 16px 14px; }
+  .section-eyebrow { font-size: 11px; }
+
+  /* ---- KIOSK ---- */
+  .kiosk-hero { padding: 20px 18px; }
+  .kiosk-hero-grid { grid-template-columns: 1fr; gap: 18px; }
+  .kiosk-community { gap: 14px; }
+  .kiosk-community .crest { width: 56px; height: 56px; }
+  .kiosk-community .name { font-size: 22px; }
+  .kiosk-community .place { font-size: 13px; }
+  .kiosk-parasha .name { font-size: 34px; }
+  .kiosk-parasha .label { font-size: 11px; letter-spacing: 0.14em; }
+  .kiosk-shabbat { padding: 12px 14px; }
+  .kiosk-shabbat .row .time { font-size: 19px; }
+
+  .kiosk-col { padding: 20px 18px; }
+  .kiosk-section-title { font-size: 18px; }
+
+  .event-row {
+    grid-template-columns: 60px 1fr;
+    gap: 12px;
+    padding: 12px 0;
+  }
+  .event-row .event-action {
+    grid-column: 1 / -1;
+    text-align: right;
+    margin-top: -6px;
+    padding-right: 72px;
+  }
+  .event-date .d { font-size: 22px; }
+  .event-meta .name { font-size: 15px; }
+  .event-meta .sub { font-size: 12px; }
+  .event-time { font-size: 14px; }
+
+  .kiddush-card { padding: 14px 16px; gap: 14px; }
+  .kiddush-card .icon-wrap { width: 48px; height: 48px; }
+  .kiddush-card .who { font-size: 18px; }
+
+  .business-grid { grid-template-columns: 1fr; gap: 8px; }
+
+  .ticker { padding: 10px 14px; font-size: 12.5px; gap: 10px; }
+  .ticker .badge { font-size: 10.5px; padding: 3px 8px; }
+
+  /* ---- MEMBER ---- */
+  .member-wrap { gap: 14px; }
+  .member-card-hero { padding: 18px; }
+  .member-card-hero .name { font-size: 20px; }
+  .alert-amber .amount { font-size: 26px; }
+  .greet-band {
+    padding: 14px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .greet-band .greet-text .big { font-size: 18px; }
+  .greet-band .greet-text .small { font-size: 13px; }
+  .event-grid { grid-template-columns: 1fr; }
+  .member-event { padding: 16px; }
+  .member-event .ev-name { font-size: 15.5px; }
+  .history-list { padding: 16px; }
+  .history-row {
+    grid-template-columns: 24px 1fr;
+    gap: 10px;
+  }
+  .history-row .tag-row {
+    grid-column: 2 / -1;
+    margin-top: 6px;
+  }
+
+  /* ---- ADMIN ---- */
+  .admin-wrap { gap: 14px; }
+  .admin-sidebar {
+    padding: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .admin-sidebar::-webkit-scrollbar { display: none; }
+  .admin-sidebar > .group {
+    display: inline-flex;
+    flex-direction: row;
+    gap: 4px;
+    margin-bottom: 0;
+    vertical-align: middle;
+  }
+  .admin-sidebar .group-title { display: none; }
+  .admin-sidebar > .group + .group {
+    margin-inline-start: 6px;
+    padding-inline-start: 6px;
+    border-inline-start: 1px solid var(--c-border-soft);
+  }
+  .admin-sidebar a {
+    flex-shrink: 0;
+    padding: 8px 10px;
+    margin-bottom: 0;
+    font-size: 12.5px;
+    white-space: nowrap;
+  }
+  .admin-sidebar a .count { display: none; }
+  .admin-sidebar {
+    white-space: nowrap;
+    display: block;
+  }
+
+  .admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .admin-header h2 { font-size: 22px; }
+  .admin-header .sub { font-size: 13px; }
+  .admin-header > div:last-child { width: 100%; display: flex; gap: 8px; }
+  .admin-header > div:last-child .btn { flex: 1; }
+
+  .kpi-row { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .kpi-card { padding: 14px; }
+  .kpi-card .value { font-size: 24px; }
+  .kpi-card .icon-corner {
+    width: 30px; height: 30px;
+    top: 12px; left: 12px;
+  }
+  .kpi-card .label { font-size: 11px; }
+
+  .events-table .head { padding: 14px 16px; flex-wrap: wrap; gap: 8px; }
+  .events-table th, .events-table td { padding: 10px 12px; font-size: 12.5px; }
+  .events-table th:nth-child(2), .events-table td:nth-child(2) { display: none; }
+  .events-table td .ev-cell .n { font-size: 13.5px; }
+  .events-table td .ev-cell .s { display: none; }
+  .attendance-bar .bar { width: 50px; }
+  .attendance-bar .num { font-size: 11.5px; }
+
+  .donation-card { padding: 16px; }
+  .flow-strip {
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 8px 10px;
+    font-size: 11.5px;
+  }
+  .flow-strip .step { font-size: 11.5px; }
+  .field.row2 { grid-template-columns: 1fr; }
+
+  .templates-strip { padding: 16px; }
+  .template-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .template-card { padding: 12px; }
+  .template-card .name { font-size: 13.5px; }
+  .template-card .meta { font-size: 11.5px; }
+
+  .members-card { padding: 16px; }
+  .member-row {
+    grid-template-columns: 32px 1fr auto;
+    gap: 10px;
+  }
+  .member-row .role-tag { display: none; }
+  .member-row .av { width: 32px; height: 32px; font-size: 12px; }
+  .member-row .n { font-size: 13px; }
+  .member-row .meta { font-size: 11px; }
+  .member-row .quick { font-size: 11.5px; padding: 5px 8px; }
+
+  /* ---- SUPER ADMIN ---- */
+  .super-hero {
+    padding: 22px 18px;
+    border-radius: var(--r-lg);
+  }
+  .super-hero .row1 {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .super-hero h1 { font-size: 26px; line-height: 1.1; }
+  .super-hero .sub { font-size: 13.5px; }
+  .super-hero .time-block { text-align: start; }
+  .super-hero .time-block .now { font-size: 22px; }
+
+  .super-kpi-row { grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+  .super-kpi { padding: 14px; }
+  .super-kpi .value { font-size: 28px; }
+  .super-kpi .label { font-size: 11px; }
+  .super-kpi .delta { font-size: 11.5px; }
+
+  .map-head { padding: 14px 16px; flex-wrap: wrap; gap: 8px; }
+  .map-head h3 { font-size: 16px; }
+  .map-head .legend { font-size: 11px; flex-wrap: wrap; gap: 8px; }
+
+  .world-stage { height: 320px; }
+  .continent-label { font-size: 9.5px; letter-spacing: 0.14em; }
+  .pin .label { font-size: 9.5px; padding: 2px 5px; }
+  .pin .dot { width: 9px; height: 9px; }
+  .pin.large .dot { width: 12px; height: 12px; }
+
+  .leader-card { padding: 16px; }
+  .leader-card h3 { font-size: 15px; }
+  .leader-row { grid-template-columns: 22px 1fr auto; gap: 10px; }
+  .leader-row .info .n { font-size: 13px; }
+  .leader-row .info .loc { font-size: 11px; }
+  .leader-row .metric .v { font-size: 14.5px; }
+
+  .activity-feed { padding: 16px; }
+  .activity-feed h3 { font-size: 15px; }
+  .act-row .text { font-size: 12.5px; }
+  .act-row .time { font-size: 10.5px; }
+  .act-row .ico { width: 28px; height: 28px; }
+
+  /* ---- Footer ---- */
+  .app-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 11.5px;
+    padding: 14px 18px;
+  }
+  .app-footer .left { flex-direction: column; align-items: flex-start; gap: 8px; }
+}
+
+/* =================================================
+   NEW v2 — Department branding & features
+   ================================================= */
+
+/* ---- Brand block (Department primary, WZO umbrella) ---- */
+.brand-mark .text-block .dept {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 14.5px;
+  color: var(--c-blue-deep);
+  letter-spacing: -0.005em;
+  line-height: 1.1;
+  max-width: 240px;
+}
+.brand-mark .text-block .umbrella {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--c-text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 3px;
+  line-height: 1.1;
+}
+html[dir="ltr"] .brand-mark .text-block .dept {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 13.5px;
+  letter-spacing: -0.005em;
+}
+html[dir="ltr"] .brand-mark .text-block .umbrella {
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+}
+
+/* ---- Tech-partner placeholder in footer ---- */
+.tech-partner {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(167,227,246,0.10);
+  border: 1px dashed rgba(167,227,246,0.35);
+  border-radius: 999px;
+  padding: 4px 10px 4px 8px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.78);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.tech-partner .ph-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--c-amber);
+}
+.tech-partner .ph-tag {
+  background: rgba(216,139,0,0.18);
+  color: #FFD79A;
+  font-size: 9.5px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+}
+
+/* ---- Admin section header (when switching views) ---- */
+.admin-section-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(30,67,130,0.06);
+  color: var(--c-blue-dark);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 8px;
+}
+
+/* ---- Generic admin table look ---- */
+.feat-card {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.feat-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--c-border);
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.feat-card-head h3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--c-blue-deep);
+  margin: 0;
+}
+.feat-card-head .sub {
+  font-size: 12.5px;
+  color: var(--c-text-muted);
+  margin-top: 3px;
+}
+.feat-card-pad { padding: 18px 22px; }
+
+/* segmented tab strip used inside feat-cards */
+.seg-tabs {
+  display: inline-flex;
+  background: #F4F5F8;
+  padding: 3px;
+  border-radius: 10px;
+  gap: 2px;
+}
+.seg-tabs button {
+  border: none;
+  background: transparent;
+  padding: 7px 12px;
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12.5px;
+  color: var(--c-text);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.seg-tabs button .c {
+  background: rgba(30,67,130,0.08);
+  color: var(--c-blue-dark);
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 999px;
+}
+.seg-tabs button.active {
+  background: #fff;
+  color: var(--c-blue-deep);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05), 0 0 0 1px rgba(30,67,130,0.08);
+}
+.seg-tabs button.active .c {
+  background: var(--c-blue);
+  color: #fff;
+}
+
+/* ---- Gemach / marketplace ---- */
+.gemach-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.gemach-table th {
+  text-align: start;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 11.5px;
+  color: var(--c-text-muted);
+  padding: 12px 22px;
+  background: var(--c-card);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.gemach-table td {
+  padding: 14px 22px;
+  border-top: 1px solid var(--c-border-soft);
+  font-size: 13.5px;
+  vertical-align: middle;
+}
+.gemach-table tr:hover td { background: #FBFBFD; }
+.gemach-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.gemach-item .icn {
+  width: 38px; height: 38px;
+  background: var(--c-card);
+  border-radius: 10px;
+  display: grid; place-items: center;
+  color: var(--c-blue);
+  flex-shrink: 0;
+  border: 1px solid var(--c-border-soft);
+}
+.gemach-item .n {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--c-text-strong);
+  line-height: 1.2;
+}
+.gemach-item .s {
+  font-size: 11.5px;
+  color: var(--c-text-muted);
+  margin-top: 2px;
+}
+
+/* compact gemach card for member view */
+.member-feat-card {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  padding: 18px 20px;
+}
+.member-feat-card h3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16.5px;
+  color: var(--c-blue-deep);
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.member-feat-card h3 .ico-wrap {
+  width: 30px; height: 30px;
+  background: var(--c-card);
+  border-radius: 8px;
+  display: grid; place-items: center;
+  color: var(--c-blue);
+}
+.member-feat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+@media (max-width: 720px) { .member-feat-grid { grid-template-columns: 1fr; } }
+
+.gemach-mini {
+  display: grid;
+  grid-template-columns: 30px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 0;
+  border-top: 1px solid var(--c-border-soft);
+  font-size: 13.5px;
+}
+.gemach-mini:first-of-type { border-top: none; }
+.gemach-mini .role {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  width: 30px; height: 30px;
+  display: grid; place-items: center;
+  border-radius: 8px;
+  background: var(--c-card);
+  color: var(--c-blue);
+}
+.gemach-mini .role.borrowing { background: rgba(216,139,0,0.12); color: var(--c-amber); }
+.gemach-mini .n {
+  font-weight: 700;
+  color: var(--c-text-strong);
+}
+.gemach-mini .meta {
+  font-size: 11.5px;
+  color: var(--c-text-muted);
+  margin-top: 1px;
+}
+
+/* ---- Avot u-Vanim ---- */
+.avot-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 22px;
+}
+@media (max-width: 1024px) { .avot-grid { grid-template-columns: 1fr; } }
+
+.attendance-grid {
+  display: grid;
+  grid-template-columns: 200px repeat(8, 1fr);
+  gap: 6px;
+  align-items: center;
+  font-size: 12px;
+}
+.attendance-grid .ah {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--c-text-muted);
+  text-align: center;
+  padding: 4px 0;
+}
+.attendance-grid .ah.pair {
+  text-align: start;
+  padding-inline-start: 8px;
+}
+.attendance-grid .pair-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--c-text-strong);
+  padding: 8px 0;
+  padding-inline-start: 8px;
+  border-top: 1px solid var(--c-border-soft);
+}
+.attendance-grid .pair-name .age {
+  color: var(--c-text-muted);
+  font-weight: 600;
+  font-size: 11.5px;
+  margin-inline-start: 4px;
+}
+.attendance-grid .cell {
+  height: 30px;
+  border-radius: 6px;
+  background: #F4F5F8;
+  border-top: 1px solid var(--c-border-soft);
+  margin-top: 0;
+  display: grid;
+  place-items: center;
+  color: transparent;
+}
+.attendance-grid .cell.present {
+  background: rgba(46,125,91,0.18);
+  color: var(--c-success);
+}
+.attendance-grid .cell.absent {
+  background: rgba(178,58,72,0.10);
+}
+.attendance-grid .cell.future {
+  background: #fff;
+  border: 1px dashed var(--c-border);
+  color: var(--c-text-muted);
+  font-size: 10px;
+}
+
+.avot-leader {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 0;
+  border-top: 1px solid var(--c-border-soft);
+}
+.avot-leader:first-of-type { border-top: none; }
+.avot-leader .rank {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--c-card);
+  color: var(--c-text-muted);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 13px;
+  display: grid; place-items: center;
+}
+.avot-leader.top .rank {
+  background: var(--c-amber);
+  color: #fff;
+}
+.avot-leader .who {
+  flex: 1;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13.5px;
+  color: var(--c-text-strong);
+}
+.avot-leader .who .ages {
+  font-weight: 600;
+  font-size: 11.5px;
+  color: var(--c-text-muted);
+  margin-inline-start: 6px;
+}
+.avot-leader .pts {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--c-blue);
+  font-variant-numeric: tabular-nums;
+}
+.avot-leader .pts span {
+  font-size: 11px;
+  color: var(--c-text-muted);
+  font-weight: 600;
+  margin-inline-start: 3px;
+}
+
+/* member view of avot uvanim */
+.avot-mini {
+  background: linear-gradient(160deg, #F2FAF6 0%, #FAFDF8 100%);
+  border: 1px solid #C5E0D0;
+  border-radius: var(--r-lg);
+  padding: 18px 20px;
+}
+.avot-mini .pair-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 17px;
+  color: var(--c-text-strong);
+  margin: 4px 0 10px;
+}
+.avot-mini .pair-line .ico {
+  width: 32px; height: 32px;
+  background: rgba(46,125,91,0.18);
+  color: var(--c-success);
+  border-radius: 8px;
+  display: grid; place-items: center;
+}
+.avot-mini-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+}
+.avot-mini-stats .stat {
+  background: #fff;
+  border: 1px solid #DCE9DF;
+  border-radius: 10px;
+  padding: 10px 8px;
+  text-align: center;
+}
+.avot-mini-stats .v {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 22px;
+  color: var(--c-success);
+  line-height: 1;
+}
+.avot-mini-stats .l {
+  font-size: 11px;
+  color: var(--c-text-muted);
+  margin-top: 4px;
+}
+
+/* ---- Points & raffles ---- */
+.points-hero {
+  background: linear-gradient(135deg, #1E4382 0%, #18A1DA 100%);
+  color: #fff;
+  border-radius: var(--r-lg);
+  padding: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  position: relative;
+  overflow: hidden;
+}
+.points-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.16) 1px, transparent 1.5px);
+  background-size: 22px 22px;
+  pointer-events: none;
+  opacity: 0.5;
+}
+.points-hero > * { position: relative; z-index: 1; }
+.points-hero .v {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 56px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.points-hero .l {
+  font-size: 12.5px;
+  color: var(--c-cyan-light);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.points-hero .breakdown {
+  font-size: 13px;
+  color: rgba(255,255,255,0.85);
+  margin-top: 6px;
+}
+.points-hero .ico-side {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: var(--r-lg);
+  padding: 14px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+}
+
+.raffle-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+@media (max-width: 720px) { .raffle-grid { grid-template-columns: 1fr; } }
+
+.raffle-card {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.raffle-card .prize {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--c-text-strong);
+  line-height: 1.2;
+}
+.raffle-card .donor {
+  font-size: 12px;
+  color: var(--c-text-muted);
+}
+.raffle-card .meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--c-text-muted);
+  border-top: 1px dashed var(--c-border-soft);
+  padding-top: 8px;
+  margin-top: 2px;
+}
+.raffle-card .entries {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--c-blue);
+  font-variant-numeric: tabular-nums;
+}
+.raffle-card .enter-btn {
+  border: 1px solid var(--c-amber);
+  background: rgba(216,139,0,0.06);
+  color: var(--c-amber-hover);
+  font-weight: 800;
+  font-size: 12.5px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-family: var(--font-display);
+}
+.raffle-card .enter-btn.entered {
+  background: var(--c-amber);
+  color: #fff;
+  border-color: var(--c-amber);
+}
+
+/* points categories table (admin) */
+.cat-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 12px 0;
+  border-top: 1px solid var(--c-border-soft);
+}
+.cat-row:first-of-type { border-top: none; }
+.cat-row .cat-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--c-text-strong);
+}
+.cat-row .cat-name .ico {
+  display: inline-grid; place-items: center;
+  width: 28px; height: 28px;
+  background: var(--c-card);
+  color: var(--c-blue);
+  border-radius: 8px;
+  margin-inline-end: 8px;
+  vertical-align: middle;
+}
+.cat-row .cat-stat .v {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--c-blue);
+  font-variant-numeric: tabular-nums;
+}
+.cat-row .cat-stat .l {
+  font-size: 11px;
+  color: var(--c-text-muted);
+}
+
+/* ---- Aliyot board ---- */
+.aliyot-head {
+  background: linear-gradient(135deg, #FAF9F5 0%, #FFF9EC 100%);
+  border-bottom: 1px solid #F0E4C7;
+  padding: 18px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.aliyot-head h3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 19px;
+  color: var(--c-blue-deep);
+  margin: 0;
+}
+.aliyot-head .sub {
+  font-size: 13px;
+  color: var(--c-text);
+  margin-top: 3px;
+}
+.aliyot-head .parasha-tag {
+  background: #fff;
+  border: 1px solid #F0E4C7;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--c-blue-deep);
+}
+.aliyot-list {
+  padding: 8px 0;
+}
+.aliyot-row {
+  display: grid;
+  grid-template-columns: 80px 1fr auto auto;
+  gap: 14px;
+  padding: 12px 22px;
+  align-items: center;
+  border-top: 1px solid var(--c-border-soft);
+}
+.aliyot-row:first-of-type { border-top: none; }
+.aliyot-row .ord {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 13px;
+  color: var(--c-blue-deep);
+  background: var(--c-card);
+  border: 1px solid var(--c-border-soft);
+  border-radius: 8px;
+  padding: 6px 8px;
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+.aliyot-row .ord.maftir {
+  background: rgba(216,139,0,0.12);
+  color: var(--c-amber-hover);
+  border-color: rgba(216,139,0,0.3);
+}
+.aliyot-row .who {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--c-text-strong);
+}
+.aliyot-row .occ {
+  font-size: 12px;
+  color: var(--c-text-muted);
+  margin-top: 2px;
+}
+.aliyot-row .last {
+  font-size: 11.5px;
+  color: var(--c-text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* very quiet payment link — by design */
+.quiet-pay {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  color: var(--c-text-muted);
+  text-decoration: none;
+  border: 1px solid var(--c-border-soft);
+  background: #fff;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+.quiet-pay:hover {
+  color: var(--c-amber-hover);
+  border-color: rgba(216,139,0,0.4);
+  background: rgba(216,139,0,0.04);
+}
+.quiet-pay .dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--c-amber);
+  opacity: 0.7;
+}
+
+/* queue / tor habba */
+.queue-list {
+  background: var(--c-card);
+  border-radius: var(--r-md);
+  padding: 12px 14px;
+  margin: 8px 22px 18px;
+}
+.queue-list h4 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 12.5px;
+  color: var(--c-text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+}
+.queue-row {
+  display: grid;
+  grid-template-columns: 24px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 6px 0;
+  font-size: 13px;
+}
+.queue-row .pos {
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: var(--c-text-muted);
+  text-align: center;
+}
+.queue-row .gap {
+  font-size: 11.5px;
+  color: var(--c-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* member's aliyot mini-card */
+.aliyot-mini {
+  background: linear-gradient(160deg, #FAF9F5 0%, #FFF9EC 100%);
+  border: 1px solid #F0E4C7;
+  border-radius: var(--r-lg);
+  padding: 18px 20px;
+}
+.aliyot-mini .row-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 8px 0;
+  border-top: 1px solid rgba(240,228,199,0.7);
+  font-size: 13.5px;
+}
+.aliyot-mini .row-line:first-of-type { border-top: none; }
+.aliyot-mini .row-line .l { color: var(--c-text-muted); }
+.aliyot-mini .row-line .v {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--c-text-strong);
+}
+.aliyot-mini .pay-row {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed #E5D5A8;
+  font-size: 12px;
+  color: var(--c-text-muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.aliyot-mini .pay-row .hint {
+  font-style: italic;
+}
+.pay-chips {
+  display: inline-flex;
+  gap: 6px;
+}
+.pay-chips a {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--c-blue-dark);
+  background: #fff;
+  border: 1px solid var(--c-border);
+  padding: 4px 10px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-variant-numeric: tabular-nums;
+}
+.pay-chips a:hover {
+  border-color: var(--c-amber);
+  color: var(--c-amber-hover);
+}
+
+/* ---- Business admin (admin's biz directory) ---- */
+.biz-admin-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+@media (max-width: 720px) { .biz-admin-grid { grid-template-columns: 1fr; } }
+
+.biz-admin-card {
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  padding: 14px;
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+.biz-admin-card .ico {
+  width: 44px; height: 44px;
+  background: var(--c-card);
+  color: var(--c-blue);
+  border-radius: 10px;
+  display: grid; place-items: center;
+  border: 1px solid var(--c-border-soft);
+}
+.biz-admin-card .n {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 14.5px;
+  color: var(--c-text-strong);
+  line-height: 1.15;
+}
+.biz-admin-card .meta {
+  font-size: 12px;
+  color: var(--c-text-muted);
+  margin-top: 3px;
+}
+.biz-admin-card .tag-mini {
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.biz-admin-card .tag-mini.app { background: rgba(46,125,91,0.12); color: var(--c-success); }
+.biz-admin-card .tag-mini.pend { background: rgba(216,139,0,0.12); color: var(--c-amber-hover); }
+.biz-admin-card .menu {
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  border: 1px solid var(--c-border);
+  background: #fff;
+  display: grid; place-items: center;
+  color: var(--c-text-muted);
+  cursor: pointer;
+}
+
+/* small responsive tweaks for the new bits */
+@media (max-width: 1024px) {
+  .attendance-grid { grid-template-columns: 160px repeat(6, 1fr); font-size: 11px; }
+  .attendance-grid .cell { height: 26px; }
+  .points-hero .v { font-size: 44px; }
+}
+@media (max-width: 720px) {
+  .gemach-table th:nth-child(3),
+  .gemach-table td:nth-child(3),
+  .gemach-table th:nth-child(4),
+  .gemach-table td:nth-child(4) { display: none; }
+  .gemach-table th, .gemach-table td { padding: 12px 14px; font-size: 12.5px; }
+  .attendance-grid { grid-template-columns: 130px repeat(4, 1fr); font-size: 10.5px; }
+  .attendance-grid .cell { height: 22px; }
+  .aliyot-row { grid-template-columns: 60px 1fr auto; padding: 10px 14px; }
+  .aliyot-row .last { grid-column: 2 / -1; padding-inline-start: 0; margin-top: -4px; font-size: 11px; }
+  .points-hero { flex-direction: column; align-items: flex-start; padding: 18px; }
+  .points-hero .v { font-size: 40px; }
+  .queue-list { margin: 8px 14px 14px; }
+  .feat-card-head { padding: 14px 16px; }
+  .feat-card-pad { padding: 14px 16px; }
+}
+
+/* ---- Extra-small phones (≤ 380px) ---- */
+@media (max-width: 380px) {
+  .kpi-row { grid-template-columns: 1fr; }
+  .super-kpi-row { grid-template-columns: 1fr; }
+  .super-hero h1 { font-size: 22px; }
+}
+
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React + Babel from CDN (loaded as <script src>, which works fine via file://) -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <!-- ALL JSX content is inline below — no external .jsx fetches, so it works with double-click (file://) -->
+
+  <script type="text/babel" data-presets="react">
+// Lightweight i18n — context + hook
+const LangContext = React.createContext({ lang: "he", setLang: () => {} });
+
+const useLang = () => React.useContext(LangContext);
+
+// tx(hebrew, english) → returns the right string for current lang
+const useTx = () => {
+  const { lang } = useLang();
+  return (he, en) => (lang === "he" ? he : en);
+};
+
+window.LangContext = LangContext;
+window.useLang = useLang;
+window.useTx = useTx;
+
+  </script>
+
+  <script type="text/babel" data-presets="react">
+// Icons — simple line-icon set used across all screens
+const I = {
+  Board: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <rect x="3" y="4" width="18" height="14" rx="2"/><path d="M7 9h10M7 13h6"/><path d="M9 18v3M15 18v3"/>
+    </svg>
+  ),
+  User: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+    </svg>
+  ),
+  Settings: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <circle cx="12" cy="12" r="3"/>
+      <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1c0 .6.4 1.2 1 1.5a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9c.3.6.9 1 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>
+    </svg>
+  ),
+  Globe: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.8 3.2 4 6.6 4 9s-1.2 5.8-4 9c-2.8-3.2-4-6.6-4-9s1.2-5.8 4-9z"/>
+    </svg>
+  ),
+  Calendar: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/>
+    </svg>
+  ),
+  Clock: (p) => (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+    </svg>
+  ),
+  Pin: (p) => (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M12 22s7-7.5 7-13a7 7 0 1 0-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/>
+    </svg>
+  ),
+  Bell: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/>
+    </svg>
+  ),
+  Coins: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <ellipse cx="9" cy="7" rx="6" ry="3"/><path d="M3 7v6c0 1.7 2.7 3 6 3"/><path d="M15 11.5c3.3 0 6 1.3 6 3v3c0 1.7-2.7 3-6 3s-6-1.3-6-3v-3"/><path d="M15 14c-3.3 0-6 1.3-6 3"/>
+    </svg>
+  ),
+  Sparkles: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/><path d="M19 14l.7 2.3L22 17l-2.3.7L19 20l-.7-2.3L16 17l2.3-.7L19 14z"/>
+    </svg>
+  ),
+  Kiddush: (p) => (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M7 4h10v3a5 5 0 0 1-5 5 5 5 0 0 1-5-5V4z"/><path d="M12 12v6"/><path d="M8 21h8"/>
+    </svg>
+  ),
+  Candle: (p) => (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M12 3c1 1.2 1.6 2.2 1.6 3a1.6 1.6 0 1 1-3.2 0c0-.8.6-1.8 1.6-3z"/><rect x="9" y="9" width="6" height="12" rx="1"/><path d="M9 13h6"/>
+    </svg>
+  ),
+  Book: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M4 4h7a4 4 0 0 1 4 4v13H7a3 3 0 0 1-3-3V4z"/><path d="M20 4h-7a4 4 0 0 0-4 4v13"/>
+    </svg>
+  ),
+  Wrench: (p) => (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M14.7 6.3a4 4 0 0 0 5 5L21 13l-8 8-2.5-2.5L3 11l1.7-1.3a4 4 0 0 0 5-5L11 4l3.7 2.3z"/>
+    </svg>
+  ),
+  Store: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M3 9l1.5-5h15L21 9"/><path d="M3 9v11h18V9"/><path d="M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/>
+    </svg>
+  ),
+  Bag: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>
+    </svg>
+  ),
+  Heart: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M12 21s-7-4.5-7-11a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 6.5-7 11-7 11z"/>
+    </svg>
+  ),
+  Plus: (p) => (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M12 5v14M5 12h14"/>
+    </svg>
+  ),
+  Check: (p) => (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M4 12l5 5L20 6"/>
+    </svg>
+  ),
+  Send: (p) => (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/>
+    </svg>
+  ),
+  Arrow: (p) => (
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M15 6l-6 6 6 6"/>
+    </svg>
+  ),
+  ArrowUp: (p) => (
+    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M12 19V5M5 12l7-7 7 7"/>
+    </svg>
+  ),
+  Search: (p) => (
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
+    </svg>
+  ),
+  Star: (p) => (
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" {...p}>
+      <path d="M12 3l2.6 6.3L21 10l-5 4.4L17.4 21 12 17.7 6.6 21 8 14.4 3 10l6.4-.7L12 3z"/>
+    </svg>
+  ),
+  Phone: (p) => (
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8 9.6a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2z"/>
+    </svg>
+  ),
+  // The signature mark — a simple two-triangle star
+  StarOfDavid: (p) => (
+    <svg viewBox="0 0 40 40" {...p}>
+      <polygon points="20,4 33,27 7,27" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinejoin="round"/>
+      <polygon points="20,36 7,13 33,13" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinejoin="round"/>
+    </svg>
+  ),
+  // Half star — decorative motif (just a triangle)
+  HalfStar: (p) => (
+    <svg viewBox="0 0 60 60" {...p}>
+      <polygon points="30,6 55,46 5,46" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/>
+    </svg>
+  ),
+  Users: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <circle cx="9" cy="8" r="3.5"/><path d="M2 21c0-3.5 3-6.5 7-6.5s7 3 7 6.5"/><circle cx="17" cy="6" r="2.8"/><path d="M22 18.5c0-2.6-1.8-4.5-4.5-5"/>
+    </svg>
+  ),
+  Bolt: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/>
+    </svg>
+  ),
+  TrendUp: (p) => (
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/>
+    </svg>
+  ),
+  Menorah: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M12 3v15M5 9v9M19 9v9M8 6v12M16 6v12M3 18h18"/>
+    </svg>
+  ),
+  Gift: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M5 12v9h14v-9"/>
+      <path d="M12 8c-2.5 0-4-1.2-4-3a2 2 0 0 1 4 0c0 1.8-1.5 3-4 3M12 8c2.5 0 4-1.2 4-3a2 2 0 0 0-4 0c0 1.8 1.5 3 4 3"/>
+    </svg>
+  ),
+  Award: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <circle cx="12" cy="9" r="6"/><path d="M8.2 13.5L6 22l6-3 6 3-2.2-8.5"/>
+    </svg>
+  ),
+  Scroll: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M5 8a3 3 0 0 1 3-3h11v11a3 3 0 0 0 3 3h-9a3 3 0 0 1-3-3V8z"/>
+      <path d="M5 8v8a3 3 0 0 0 3 3M8 9h7M8 13h5"/>
+    </svg>
+  ),
+  Handshake: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M11 17l2 2 4-4 4-4-3-3-2 2-4-4-4 4-3 3 4 4 2-2z"/><path d="M9 14l3-3"/>
+    </svg>
+  ),
+  Dice: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <rect x="3" y="3" width="18" height="18" rx="3"/>
+      <circle cx="8" cy="8" r="1" fill="currentColor"/><circle cx="16" cy="8" r="1" fill="currentColor"/>
+      <circle cx="12" cy="12" r="1" fill="currentColor"/>
+      <circle cx="8" cy="16" r="1" fill="currentColor"/><circle cx="16" cy="16" r="1" fill="currentColor"/>
+    </svg>
+  ),
+  TorahScroll: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <rect x="3" y="4" width="3" height="16" rx="1"/><rect x="18" y="4" width="3" height="16" rx="1"/>
+      <path d="M6 6h12v12H6z"/><path d="M9 9h6M9 12h6M9 15h4"/>
+    </svg>
+  ),
+  Store2: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M3 9l1.5-5h15L21 9"/><path d="M3 9v11h18V9"/><path d="M9 20v-5h6v5"/>
+    </svg>
+  ),
+  ChevDown: (p) => (
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M6 9l6 6 6-6"/>
+    </svg>
+  ),
+  Pencil: (p) => (
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M14 4l6 6L8 22H2v-6L14 4z"/>
+    </svg>
+  ),
+  Filter: (p) => (
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <path d="M3 5h18l-7 9v6l-4-2v-4L3 5z"/>
+    </svg>
+  ),
+  Family: (p) => (
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" {...p}>
+      <circle cx="7" cy="6" r="2.5"/><circle cx="17" cy="6" r="2.5"/><circle cx="12" cy="14" r="2"/>
+      <path d="M3 14c0-2.2 1.8-4 4-4s4 1.8 4 4M13 14c0-2.2 1.8-4 4-4s4 1.8 4 4M9 21c0-1.7 1.3-3 3-3s3 1.3 3 3"/>
+    </svg>
+  ),
+};
+
+window.I = I;
+
+  </script>
+
+  <script type="text/babel" data-presets="react">
+// New v2 feature components — Gemach, Avot u-Vanim, Points & Raffles, Aliyot, Business admin
+// Used by both AdminScreen and MemberScreen
+
+// ============================================================
+// 1) גמ"ח / מציאון — Gemach (community lending library)
+// ============================================================
+const GEMACH_ITEMS = [
+  { he: { n: "מקדחה מקצועית Bosch GBH", c: "כלי עבודה" }, en: { n: "Bosch GBH professional drill", c: "Tools" },
+    owner_he: "משפ' שטרן", owner_en: "Stern family", status: "loan",
+    to_he: "משפ' לוי", to_en: "Levi family", until: "3.6", icon: "Wrench" },
+  { he: { n: "12 כיסאות מתקפלים", c: "ריהוט אירוע" }, en: { n: "12 folding chairs", c: "Event furniture" },
+    owner_he: "בית הכנסת", owner_en: "Beit Knesset", status: "loan",
+    to_he: "משפ' רוזנברג", to_en: "Rosenberg family", until: "1.6", icon: "Store2" },
+  { he: { n: "עגלת תינוק (Doona)", c: "ילדים" }, en: { n: "Stroller (Doona)", c: "Kids" },
+    owner_he: "משפ' פלדמן", owner_en: "Feldman family", status: "free", icon: "Family" },
+  { he: { n: "סיר ענק 50 ליטר", c: "מטבח לאירועים" }, en: { n: "50L industrial pot", c: "Event kitchen" },
+    owner_he: "מטבח הקהילה", owner_en: "Community kitchen", status: "free", icon: "Store" },
+  { he: { n: "ערכת קישוטים לסוכה", c: "חגים" }, en: { n: "Sukkah decoration kit", c: "Festivals" },
+    owner_he: "משפ' כהן", owner_en: "Cohen family", status: "wanted", reqs: 3, icon: "Sparkles" },
+  { he: { n: "ספרי קריאה לילדים (קומיקס)", c: "ספריה" }, en: { n: "Kids' comic books", c: "Library" },
+    owner_he: "ספריית הקהילה", owner_en: "Community library", status: "free", icon: "Book" },
+  { he: { n: "צילייה / שולחן עיסוי לדם הברית", c: "ברית" }, en: { n: "Brit Milah pillow & cushion", c: "Brit" },
+    owner_he: "משפ' אבוטבול", owner_en: "Abutbul family", status: "loan",
+    to_he: "משפ' שמש", to_en: "Shemesh family", until: "4.6", icon: "Heart" },
+  { he: { n: "מצלמת DSLR Canon", c: "אירועים" }, en: { n: "Canon DSLR camera", c: "Events" },
+    owner_he: "מירי כהן", owner_en: "Miri Cohen", status: "wanted", reqs: 1, icon: "Sparkles" },
+];
+
+const GemachAdmin = () => {
+  const tx = useTx();
+  const [tab, setTab] = React.useState("all");
+  const counts = {
+    all: GEMACH_ITEMS.length,
+    free: GEMACH_ITEMS.filter(i => i.status === "free").length,
+    loan: GEMACH_ITEMS.filter(i => i.status === "loan").length,
+    wanted: GEMACH_ITEMS.filter(i => i.status === "wanted").length,
+  };
+  const filtered = tab === "all" ? GEMACH_ITEMS : GEMACH_ITEMS.filter(i => i.status === tab);
+
+  return (
+    <div>
+      <div className="admin-section-eyebrow">
+        <I.Handshake /> {tx("שיתוף וקהילה", "Sharing & community")}
+      </div>
+      <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 26, color: "var(--c-blue-deep)", margin: "0 0 6px" }}>
+        {tx("גמ\"ח ומציאון דיגיטלי", "Gemach & community lending")}
+      </h2>
+      <p style={{ fontSize: 14, color: "var(--c-text-muted)", margin: "0 0 18px", maxWidth: 720 }}>
+        {tx(
+          "מי משאיל מה, מי מבקש, ומתי הפריט חוזר. כל הקהילה רואה את אותו לוח — מקדחה, סיר ענק, או עגלת תינוק.",
+          "Who's lending what, who's asking, when each item comes back. The whole community sees one board — drill, stockpot, or stroller."
+        )}
+      </p>
+
+      <div className="feat-card">
+        <div className="feat-card-head">
+          <div>
+            <h3>{tx("פריטי הקהילה", "Community items")}</h3>
+            <div className="sub">{tx("נכון לעכשיו · עודכן לפני 3 דק'", "Up to date · refreshed 3 min ago")}</div>
+          </div>
+          <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+            <div className="seg-tabs">
+              <button className={tab === "all" ? "active" : ""} onClick={() => setTab("all")}>{tx("הכל", "All")} <span className="c">{counts.all}</span></button>
+              <button className={tab === "free" ? "active" : ""} onClick={() => setTab("free")}>{tx("זמין", "Available")} <span className="c">{counts.free}</span></button>
+              <button className={tab === "loan" ? "active" : ""} onClick={() => setTab("loan")}>{tx("מושאל", "On loan")} <span className="c">{counts.loan}</span></button>
+              <button className={tab === "wanted" ? "active" : ""} onClick={() => setTab("wanted")}>{tx("מבוקש", "Wanted")} <span className="c">{counts.wanted}</span></button>
+            </div>
+            <button className="btn btn-ghost btn-sm"><I.Filter /> {tx("סינון", "Filter")}</button>
+            <button className="btn btn-primary btn-sm"><I.Plus /> {tx("הוסיפו פריט", "Add item")}</button>
+          </div>
+        </div>
+
+        <table className="gemach-table">
+          <thead>
+            <tr>
+              <th>{tx("פריט", "Item")}</th>
+              <th>{tx("בעלים", "Owner")}</th>
+              <th>{tx("סטטוס", "Status")}</th>
+              <th>{tx("מבקש / חזרה", "Requester / due")}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.map((it, i) => {
+              const t = tx(it.he, it.en);
+              const Ico = I[it.icon] || I.Sparkles;
+              return (
+                <tr key={i}>
+                  <td>
+                    <div className="gemach-item">
+                      <div className="icn"><Ico /></div>
+                      <div>
+                        <div className="n">{t.n}</div>
+                        <div className="s">{t.c}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>{tx(it.owner_he, it.owner_en)}</td>
+                  <td>
+                    {it.status === "free" && <span className="tag tag-success">{tx("זמין להשאלה", "Available")}</span>}
+                    {it.status === "loan" && <span className="tag tag-amber">{tx("מושאל", "On loan")}</span>}
+                    {it.status === "wanted" && <span className="tag tag-cyan">{tx(`מבוקש (${it.reqs})`, `Wanted (${it.reqs})`)}</span>}
+                  </td>
+                  <td style={{ fontSize: 12.5, color: "var(--c-text)" }}>
+                    {it.status === "loan" && <span>{tx(it.to_he, it.to_en)} · <span style={{ color: "var(--c-text-muted)" }}>{tx("חזרה ", "due ")}{it.until}</span></span>}
+                    {it.status === "wanted" && <span style={{ color: "var(--c-text-muted)" }}>{tx("רשימת המתנה", "Waitlist")}</span>}
+                    {it.status === "free" && <span style={{ color: "var(--c-text-muted)" }}>—</span>}
+                  </td>
+                  <td style={{ textAlign: "end" }}>
+                    <button className="btn btn-ghost btn-sm">{tx("פתח", "Open")}</button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
+// Compact member-side gemach
+const GemachMember = () => {
+  const tx = useTx();
+  return (
+    <div className="member-feat-card">
+      <h3>
+        <span className="ico-wrap"><I.Handshake /></span>
+        {tx("המציאון שלי", "My gemach")}
+      </h3>
+      <div className="gemach-mini">
+        <span className="role">{tx("משאיל", "Lend")}</span>
+        <div>
+          <div className="n">{tx("מקדחה מקצועית Bosch", "Bosch professional drill")}</div>
+          <div className="meta">{tx("אצל משפ' לוי · חזרה 3.6", "With Levi family · due 3 Jun")}</div>
+        </div>
+        <button className="btn btn-ghost btn-sm">{tx("תזכורת", "Remind")}</button>
+      </div>
+      <div className="gemach-mini">
+        <span className="role borrowing">{tx("מבקש", "Want")}</span>
+        <div>
+          <div className="n">{tx("עגלת תינוק (Doona)", "Stroller (Doona)")}</div>
+          <div className="meta">{tx("יש זמין — אצל משפ' פלדמן", "1 available — Feldman family")}</div>
+        </div>
+        <button className="btn btn-primary btn-sm">{tx("בקש", "Request")}</button>
+      </div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 12, paddingTop: 10, borderTop: "1px dashed var(--c-border-soft)", fontSize: 12.5, color: "var(--c-text-muted)" }}>
+        <span>{tx("48 פריטים זמינים בקהילה", "48 community items available")}</span>
+        <a href="#" style={{ color: "var(--c-blue)", fontWeight: 700, textDecoration: "none" }}>{tx("לעיון בכל המציאון", "Browse all")} <I.Arrow className="lt-flip" /></a>
+      </div>
+    </div>
+  );
+};
+
+// ============================================================
+// 2) פרויקט אבות ובנים — Fathers & Sons
+// ============================================================
+const AVOT_PAIRS = [
+  { he: { f: "יונתן הירש", s: "דניאל", note: "אבא וילד" }, en: { f: "Jonathan Hirsch", s: "Daniel" }, age: 8, att: ["P","P","P","P","P","P","A","P"], pts: 156 },
+  { he: { f: "אהרון רוזנברג", s: "אריאל" }, en: { f: "Aharon Rosenberg", s: "Ariel" }, age: 10, att: ["P","P","P","A","P","P","P","P"], pts: 168 },
+  { he: { f: "שמואל לוי", s: "נדב" }, en: { f: "Shmuel Levi", s: "Nadav" }, age: 7, att: ["P","P","P","P","P","P","P","P"], pts: 184 },
+  { he: { f: "אבי כהן", s: "יואב" }, en: { f: "Avi Cohen", s: "Yoav" }, age: 9, att: ["P","A","P","P","A","P","P","A"], pts: 122 },
+  { he: { f: "דוד שטרן", s: "איתי" }, en: { f: "David Stern", s: "Itai" }, age: 8, att: ["A","P","P","P","P","P","P","P"], pts: 148 },
+  { he: { f: "ניר אבוטבול", s: "אלון" }, en: { f: "Nir Abutbul", s: "Alon" }, age: 11, att: ["P","P","P","P","P","A","P","P"], pts: 162 },
+  { he: { f: "יצחק פלדמן", s: "אורי" }, en: { f: "Yitzchak Feldman", s: "Uri" }, age: 6, att: ["P","P","A","P","P","P","P","P"], pts: 144 },
+  { he: { f: "מרדכי כץ", s: "יהונתן" }, en: { f: "Mordechai Katz", s: "Yehonatan" }, age: 9, att: ["P","P","P","P","P","P","P","P"], pts: 192 },
+];
+
+const AvotAdmin = () => {
+  const tx = useTx();
+  const weeks = ["ה' אד'","י\"ב","י\"ט","כ\"ו","ג' אייר","י' איי'","י\"ז","כ\"ד"];
+  const sorted = [...AVOT_PAIRS].sort((a,b) => b.pts - a.pts);
+  return (
+    <div>
+      <div className="admin-section-eyebrow">
+        <I.Family /> {tx("חינוך ודור-הבא", "Education & next-generation")}
+      </div>
+      <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 26, color: "var(--c-blue-deep)", margin: "0 0 6px" }}>
+        {tx("פרויקט אבות ובנים", "Fathers & Sons program")}
+      </h2>
+      <p style={{ fontSize: 14, color: "var(--c-text-muted)", margin: "0 0 18px", maxWidth: 720 }}>
+        {tx(
+          "8 זוגות פעילים השנה. נוכחות שבועית במפגשי הלימוד בליל שישי, ניקוד מצטבר וטבלת מובילים שנחשפת בסעודת סוף הסזון.",
+          "8 active pairs this year. Weekly attendance at Friday night learning, accumulated score, and a leaderboard revealed at the season-end meal."
+        )}
+      </p>
+
+      <div className="avot-grid">
+        <div className="feat-card">
+          <div className="feat-card-head">
+            <div>
+              <h3>{tx("נוכחות שבועית", "Weekly attendance")}</h3>
+              <div className="sub">{tx("8 שבועות אחרונים · המפגש הבא: שבת 30.5 ב-10:00", "Last 8 weeks · Next session: Sat 30 May, 10:00")}</div>
+            </div>
+            <div style={{ display: "flex", gap: 8 }}>
+              <button className="btn btn-ghost btn-sm"><I.Plus /> {tx("רישום זוג", "Add pair")}</button>
+              <button className="btn btn-primary btn-sm"><I.Check /> {tx("סמן נוכחות לשבת", "Mark this Shabbat")}</button>
+            </div>
+          </div>
+          <div className="feat-card-pad">
+            <div className="attendance-grid">
+              <div className="ah pair">{tx("זוג", "Pair")}</div>
+              {weeks.map((w,i) => <div key={i} className="ah">{w}</div>)}
+              {AVOT_PAIRS.map((p, i) => {
+                const t = tx(p.he, p.en);
+                return (
+                  <React.Fragment key={i}>
+                    <div className="pair-name">{t.f} + {t.s}<span className="age">({p.age})</span></div>
+                    {p.att.map((a, j) => (
+                      <div key={j} className={"cell " + (a === "P" ? "present" : a === "A" ? "absent" : "future")}>
+                        {a === "P" ? "✓" : a === "A" ? "" : ""}
+                      </div>
+                    ))}
+                  </React.Fragment>
+                );
+              })}
+            </div>
+            <div style={{ display: "flex", gap: 18, marginTop: 14, fontSize: 11.5, color: "var(--c-text-muted)" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><span style={{ width: 12, height: 12, borderRadius: 3, background: "rgba(46,125,91,0.18)" }}></span> {tx("נוכח", "Present")}</span>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><span style={{ width: 12, height: 12, borderRadius: 3, background: "rgba(178,58,72,0.10)" }}></span> {tx("נעדר", "Absent")}</span>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><span style={{ width: 12, height: 12, borderRadius: 3, background: "#F4F5F8" }}></span> {tx("לא מסומן", "Unmarked")}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="feat-card">
+          <div className="feat-card-head">
+            <h3>{tx("טבלת מובילים", "Leaderboard")}</h3>
+            <span className="tag tag-mustard"><I.Award /> {tx("סיום סזון: ט' תמוז", "Season ends: 9 Tammuz")}</span>
+          </div>
+          <div className="feat-card-pad">
+            {sorted.map((p, i) => {
+              const t = tx(p.he, p.en);
+              return (
+                <div className={"avot-leader " + (i < 3 ? "top" : "")} key={i}>
+                  <div className="rank">{i + 1}</div>
+                  <div className="who">{t.f} + {t.s}<span className="ages">({p.age})</span></div>
+                  <div className="pts">{p.pts}<span>{tx("נק'", "pts")}</span></div>
+                </div>
+              );
+            })}
+            <div style={{ marginTop: 14, paddingTop: 12, borderTop: "1px dashed var(--c-border-soft)", fontSize: 12, color: "var(--c-text-muted)" }}>
+              {tx("הפרס: ארוחת שבת זוגית למקום ראשון · ספרים לכל המשתתפים.", "Prize: Shabbat dinner for two for 1st place · books for all participants.")}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const AvotMember = () => {
+  const tx = useTx();
+  return (
+    <div className="avot-mini">
+      <div className="label" style={{ fontSize: 11, fontWeight: 800, color: "var(--c-success)", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+        {tx("הזוג שלך · אבות ובנים", "Your pair · Fathers & Sons")}
+      </div>
+      <div className="pair-line">
+        <span className="ico"><I.Family /></span>
+        {tx("יונתן + דניאל הירש (8)", "Jonathan + Daniel Hirsch (8)")}
+      </div>
+      <div style={{ fontSize: 13, color: "var(--c-text)" }}>
+        {tx("המפגש הבא: שבת 30.5 ב-10:00 · בית המדרש", "Next session: Sat 30 May, 10:00 · Beit Midrash")}
+      </div>
+      <div className="avot-mini-stats">
+        <div className="stat"><div className="v">6</div><div className="l">{tx("שבועות רצופים", "Weeks streak")}</div></div>
+        <div className="stat"><div className="v">156</div><div className="l">{tx("נקודות מצטבר", "Total points")}</div></div>
+        <div className="stat"><div className="v">5</div><div className="l">{tx("מקום בטבלה", "Standing")}</div></div>
+      </div>
+    </div>
+  );
+};
+
+// ============================================================
+// 3) ניקוד והגרלות — Points & Raffles
+// ============================================================
+const POINT_CATS = [
+  { he: { n: "חוג גמרא לנשים", det: "8 משתתפות פעילות" }, en: { n: "Women's Gemara class", det: "8 active participants" }, total: 247, icon: "Book" },
+  { he: { n: "ערב נוער חודשי", det: "22 בני נוער" }, en: { n: "Monthly youth night", det: "22 teens" }, total: 1240, icon: "Bolt" },
+  { he: { n: "פרויקט אבות ובנים", det: "8 זוגות" }, en: { n: "Fathers & Sons", det: "8 pairs" }, total: 890, icon: "Family" },
+  { he: { n: "שיעור פרשת השבוע", det: "34 משתתפים קבועים" }, en: { n: "Weekly Parasha shiur", det: "34 regulars" }, total: 612, icon: "Scroll" },
+];
+
+const RAFFLES = [
+  { he: { p: "ארוחת שבת זוגית במסעדת \"חמדה\"", d: "תרומת משפ' רוזנברג" }, en: { p: "Shabbat dinner for two at \"Chemda\"", d: "Donated by Rosenberg family" }, ends_he: "סיום: ט\"ז סיון · 12.6", ends_en: "Ends: 16 Sivan · 12 Jun", entries: 67, cost: 25 },
+  { he: { p: "כרטיס לכנס ירושלים תשפ\"ז", d: "תרומה אנונימית" }, en: { p: "Ticket to Jerusalem Conference 5787", d: "Anonymous donation" }, ends_he: "סיום: ר\"ח תמוז · 30.7", ends_en: "Ends: 1 Tammuz · 30 Jul", entries: 124, cost: 50 },
+  { he: { p: "סט סידור ומחזור עור עבודת יד", d: "תרומת משפ' פינקלשטיין" }, en: { p: "Leather siddur & machzor set, handmade", d: "Donated by Finkelstein family" }, ends_he: "סיום: י\"ב סיון · 8.6", ends_en: "Ends: 12 Sivan · 8 Jun", entries: 41, cost: 15 },
+  { he: { p: "ערב לימוד פרטי עם הרב ויינברג", d: "תרומת הרב" }, en: { p: "Private learning evening with Rabbi Weinberg", d: "Rabbi's gift" }, ends_he: "סיום: ב' תמוז · 31.7", ends_en: "Ends: 2 Tammuz · 31 Jul", entries: 19, cost: 30 },
+];
+
+const PointsRafflesAdmin = () => {
+  const tx = useTx();
+  return (
+    <div>
+      <div className="admin-section-eyebrow">
+        <I.Award /> {tx("עידוד והשתתפות", "Engagement & rewards")}
+      </div>
+      <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 26, color: "var(--c-blue-deep)", margin: "0 0 6px" }}>
+        {tx("חוגים, ניקוד והגרלות", "Classes, points & raffles")}
+      </h2>
+      <p style={{ fontSize: 14, color: "var(--c-text-muted)", margin: "0 0 18px", maxWidth: 720 }}>
+        {tx(
+          "כל השתתפות צוברת נקודות. כל חודש 3–5 הגרלות מאפשרות לחברים לפדות את הנקודות לחוויות אמיתיות — מבית הקהילה ולעסקים שלה.",
+          "Every participation earns points. Each month 3–5 raffles let members spend points on real experiences — from the kehilla and its businesses."
+        )}
+      </p>
+
+      <div className="admin-grid">
+        <div className="feat-card">
+          <div className="feat-card-head">
+            <div>
+              <h3>{tx("חוגים פעילים וניקוד מצטבר", "Active classes & accumulated points")}</h3>
+              <div className="sub">{tx("סבב נוכחי · יסתיים בסוף תמוז", "Current cycle · ends end of Tammuz")}</div>
+            </div>
+            <button className="btn btn-ghost btn-sm"><I.Plus /> {tx("חוג חדש", "Add class")}</button>
+          </div>
+          <div className="feat-card-pad">
+            {POINT_CATS.map((c, i) => {
+              const t = tx(c.he, c.en);
+              const Ico = I[c.icon] || I.Sparkles;
+              return (
+                <div className="cat-row" key={i}>
+                  <div className="cat-name"><span className="ico"><Ico /></span>{t.n}</div>
+                  <div className="cat-stat"><div className="v">{c.total.toLocaleString()}</div><div className="l">{tx("נקודות סך-הכל", "total points")}</div></div>
+                  <div className="cat-stat" style={{ color: "var(--c-text-muted)", fontSize: 12.5 }}>{t.det}</div>
+                  <button className="btn btn-ghost btn-sm"><I.Pencil /> {tx("ערוך", "Edit")}</button>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="feat-card">
+          <div className="feat-card-head">
+            <div>
+              <h3>{tx("הגרלות פעילות", "Active raffles")}</h3>
+              <div className="sub">{tx("נדיבות הקהילה היא הדלק", "Powered by community generosity")}</div>
+            </div>
+            <button className="btn btn-primary btn-sm"><I.Dice /> {tx("הגרלה חדשה", "New raffle")}</button>
+          </div>
+          <div className="feat-card-pad">
+            <div className="raffle-grid">
+              {RAFFLES.map((r, i) => {
+                const t = tx(r.he, r.en);
+                return (
+                  <div className="raffle-card" key={i}>
+                    <div>
+                      <div className="prize">{t.p}</div>
+                      <div className="donor">{t.d}</div>
+                    </div>
+                    <div className="meta-row">
+                      <span>{tx(r.ends_he, r.ends_en)}</span>
+                      <span className="entries">{r.entries} {tx("כניסות", "entries")}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const PointsRafflesMember = () => {
+  const tx = useTx();
+  const [entered, setEntered] = React.useState({});
+  const toggle = (i) => setEntered(e => ({ ...e, [i]: !e[i] }));
+
+  return (
+    <div className="member-feat-card" style={{ padding: 0, overflow: "hidden" }}>
+      <div style={{ padding: "18px 20px 14px" }}>
+        <h3 style={{ marginBottom: 14 }}>
+          <span className="ico-wrap"><I.Award /></span>
+          {tx("הנקודות וההגרלות שלי", "My points & raffles")}
+        </h3>
+        <div className="points-hero">
+          <div>
+            <div className="l">{tx("יתרת נקודות", "Points balance")}</div>
+            <div className="v">247</div>
+            <div className="breakdown">{tx("חוג גמרא · אבות ובנים · פרשת השבוע", "Gemara · Avot u-Vanim · Parasha")}</div>
+          </div>
+          <div className="ico-side"><I.Award width="36" height="36" /></div>
+        </div>
+      </div>
+      <div style={{ padding: "0 20px 18px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 10 }}>
+          <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 14, color: "var(--c-blue-deep)" }}>
+            {tx("הגרלות שאתה יכול להיכנס", "Raffles you can enter")}
+          </div>
+          <span className="help-note"><I.Dice /> {tx("הגרלה כל חודש", "Monthly")}</span>
+        </div>
+        <div className="raffle-grid">
+          {RAFFLES.slice(0, 2).map((r, i) => {
+            const t = tx(r.he, r.en);
+            const isIn = !!entered[i];
+            return (
+              <div className="raffle-card" key={i}>
+                <div>
+                  <div className="prize">{t.p}</div>
+                  <div className="donor">{tx(r.ends_he, r.ends_en)}</div>
+                </div>
+                <div className="meta-row">
+                  <span style={{ color: "var(--c-amber-hover)", fontWeight: 700 }}>{r.cost} {tx("נק' לכניסה", "pts to enter")}</span>
+                  <button className={"enter-btn " + (isIn ? "entered" : "")} onClick={() => toggle(i)}>
+                    {isIn ? <span><I.Check /> {tx("בפנים", "Entered")}</span> : tx("כניסה", "Enter")}
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ============================================================
+// 4) סידור עליות לתורה — Aliyot board
+// ============================================================
+const ALIYOT = [
+  { ord_he: "כֹּהֵן", ord_en: "Kohen", who_he: "הרב אליעזר ויינברג", who_en: "Rabbi E. Weinberg", occ_he: "כבוד הרב הקבוע", occ_en: "Standing kavod", last_he: "כל שבת", last_en: "Every Shabbat" },
+  { ord_he: "לֵוִי", ord_en: "Levi", who_he: "משה כהן הלוי", who_en: "Moshe Cohen-Halevi", occ_he: "יום אזכרה לאביו ז\"ל", occ_en: "Father's yahrzeit", last_he: "12 שבועות", last_en: "12 weeks" },
+  { ord_he: "שְׁלִישִׁי", ord_en: "Shlishi", who_he: "דוד שטרן", who_en: "David Stern", occ_he: "לכבוד בר המצווה של איתי", occ_en: "Itai's bar mitzvah", last_he: "9 שבועות", last_en: "9 weeks" },
+  { ord_he: "רְבִיעִי", ord_en: "Revi'i", who_he: "יוסף לוי", who_en: "Yosef Levi", occ_he: "יום הולדת 60", occ_en: "60th birthday", last_he: "6 שבועות", last_en: "6 weeks" },
+  { ord_he: "חֲמִישִׁי", ord_en: "Chamishi", who_he: "אברהם פרץ", who_en: "Abraham Peretz", occ_he: "אורח מארה\"ב לרגל שמחה משפחתית", occ_en: "Guest from US, family simcha", last_he: "—", last_en: "—" },
+  { ord_he: "שִׁישִׁי", ord_en: "Shishi", who_he: "יצחק הלוי", who_en: "Yitzchak Halevi", occ_he: "הנחת תפילין חדשות", occ_en: "New tefillin", last_he: "14 שבועות", last_en: "14 weeks" },
+  { ord_he: "שְׁבִיעִי", ord_en: "Shvi'i", who_he: "מרדכי כץ", who_en: "Mordechai Katz", occ_he: "יום אזכרה לאמו ע\"ה", occ_en: "Mother's yahrzeit", last_he: "8 שבועות", last_en: "8 weeks" },
+];
+
+const ALIYOT_QUEUE = [
+  { he: "יצחק רוזן", en: "Yitzchak Rosen", gap_he: "14 שבועות מאז", gap_en: "14 wks since" },
+  { he: "בנימין שניידר", en: "Benjamin Schneider", gap_he: "12 שבועות מאז", gap_en: "12 wks since" },
+  { he: "אברהם גולדמן", en: "Abraham Goldman", gap_he: "11 שבועות מאז", gap_en: "11 wks since" },
+  { he: "שלמה אבוטבול", en: "Shlomo Abutbul", gap_he: "10 שבועות מאז", gap_en: "10 wks since" },
+  { he: "נחום פינקל", en: "Nachum Finkel", gap_he: "9 שבועות מאז", gap_en: "9 wks since" },
+];
+
+const AliyotAdmin = () => {
+  const tx = useTx();
+  return (
+    <div>
+      <div className="admin-section-eyebrow">
+        <I.TorahScroll /> {tx("תפילה ובית הכנסת", "Tefilla & shul")}
+      </div>
+      <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 26, color: "var(--c-blue-deep)", margin: "0 0 6px" }}>
+        {tx("סידור עליות לתורה", "Aliyot la-Torah scheduling")}
+      </h2>
+      <p style={{ fontSize: 14, color: "var(--c-text-muted)", margin: "0 0 18px", maxWidth: 720 }}>
+        {tx(
+          "סידור שבועי חי. הגבאי רואה מי קיבל מתי, מי בתור הבא, ויכול לשלב הקדשות לחברים שיש להם שמחה או יום אזכרה.",
+          "A living weekly board. The gabbai sees who got what when, who's next in line, and can weave in dedications for members marking a simcha or yahrzeit."
+        )}
+      </p>
+
+      <div className="feat-card">
+        <div className="aliyot-head">
+          <div>
+            <h3>{tx("שבת הקרובה · בית הכנסת הראשי", "This Shabbat · Main minyan")}</h3>
+            <div className="sub">{tx("שני סדרים מקבילים — הראשי והשני · 7 עליות + מפטיר", "Two parallel minyanim — main and second · 7 aliyot + maftir")}</div>
+          </div>
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <span className="parasha-tag">{tx("פרשת בְּהַעֲלֹתְךָ", "Parashat Beha'alotcha")}</span>
+            <button className="btn btn-blue btn-sm"><I.Send /> {tx("פרסם לוח שבועי", "Publish board")}</button>
+          </div>
+        </div>
+
+        <div className="aliyot-list">
+          {ALIYOT.map((a, i) => (
+            <div className="aliyot-row" key={i}>
+              <div className="ord">{tx(a.ord_he, a.ord_en)}</div>
+              <div>
+                <div className="who">{tx(a.who_he, a.who_en)}</div>
+                <div className="occ">{tx(a.occ_he, a.occ_en)}</div>
+              </div>
+              <div className="last">{tx("עלייה אחרונה: ", "Last aliya: ")}{tx(a.last_he, a.last_en)}</div>
+              <a href="#" className="quiet-pay" title={tx("שלח תזכורת אופציונלית לתרומה בעקבות העלייה", "Send an optional donation reminder following the aliyah")}>
+                <span className="dot"></span>
+                {tx("תזכורת תרומה", "Donation nudge")}
+              </a>
+            </div>
+          ))}
+          <div className="aliyot-row" key="maftir">
+            <div className="ord maftir">{tx("מַפְטִיר", "Maftir")}</div>
+            <div>
+              <div className="who">{tx("דניאל הלוי", "Daniel Halevi")}</div>
+              <div className="occ">{tx("בר המצווה של דניאל · ההפטרה: \"וַתִּתְפַּלֵּל חַנָּה\"", "Daniel's bar mitzvah · Haftarah: \"VaTitpalel Channah\"")}</div>
+            </div>
+            <div className="last">{tx("אירוע מיוחד", "Special event")}</div>
+            <a href="#" className="quiet-pay">
+              <span className="dot"></span>
+              {tx("תזכורת תרומה", "Donation nudge")}
+            </a>
+          </div>
+        </div>
+
+        <div className="queue-list">
+          <h4>{tx("תור הבא לעלייה · לפי משך הזמן מאז העלייה האחרונה", "Next-up queue · by time since last aliya")}</h4>
+          {ALIYOT_QUEUE.map((q, i) => (
+            <div className="queue-row" key={i}>
+              <span className="pos">{i + 1}</span>
+              <span>{tx(q.he, q.en)}</span>
+              <span className="gap">{tx(q.gap_he, q.gap_en)}</span>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ padding: "14px 22px", borderTop: "1px solid var(--c-border-soft)", display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 12.5, color: "var(--c-text-muted)", flexWrap: "wrap", gap: 10 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <I.Bell />
+            {tx(
+              "החיבור לגבייה הוא שקט — \"תזכורת תרומה\" שולחת לחבר הצעת תרומה אופציונלית, לא דורשת. השליטה בידיו.",
+              "Payment is intentionally quiet — \"donation nudge\" sends the member a suggested, optional contribution. They decide."
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const AliyotMember = () => {
+  const tx = useTx();
+  return (
+    <div className="aliyot-mini">
+      <div style={{ fontSize: 11, fontWeight: 800, color: "var(--c-amber-hover)", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}>
+        <I.TorahScroll /> {tx("עליות לתורה", "Aliyot la-Torah")}
+      </div>
+      <div className="row-line"><span className="l">{tx("עלייתך האחרונה", "Your last aliya")}</span><span className="v">{tx("שלישי · פרשת נשא · 23.5", "Shlishi · Parashat Naso · 23 May")}</span></div>
+      <div className="row-line"><span className="l">{tx("הזדמנות הבאה — לפי תור", "Next opportunity — by queue")}</span><span className="v">{tx("בעוד ~3 שבועות", "in ~3 weeks")}</span></div>
+      <div className="row-line"><span className="l">{tx("יומא דהילולא של אביך ז\"ל", "Father's yahrzeit (z\"l)")}</span><span className="v">{tx("ז' תמוז · 23.6", "7 Tammuz · 23 Jun")}</span></div>
+      <div className="pay-row">
+        <span className="hint">{tx("כמנהג — לתרום על העלייה (אופציונלי):", "If you wish — a donation for your aliya (optional):")}</span>
+        <div className="pay-chips">
+          <a href="#">£18</a>
+          <a href="#">£36</a>
+          <a href="#">£54</a>
+          <a href="#">{tx("אחר", "Other")}</a>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ============================================================
+// 5) ניהול עסקי הקהילה (admin)
+// ============================================================
+const BIZ_LIST = [
+  { he: { n: "ד\"ר רחל אביטל", t: "רופאת ילדים · קליניקה ביתית" }, en: { n: "Dr. Rachel Avital", t: "Pediatrician · home clinic" }, status: "app", icon: "Heart" },
+  { he: { n: "אברהם שניידר", t: "עורך דין נדל\"ן ומקרקעין" }, en: { n: "Abraham Schneider", t: "Real-estate attorney" }, status: "app", icon: "Bag" },
+  { he: { n: "מטבח חמדה — קייטרינג", t: "כשרות מהדרין · אירועים עד 200" }, en: { n: "Chemda Kitchen — Catering", t: "Glatt kosher · events up to 200" }, status: "app", icon: "Store" },
+  { he: { n: "מוסך הלוי ובניו", t: "שירות לרכב · 25 שנה" }, en: { n: "Halevi & Sons Garage", t: "Auto service · 25 years" }, status: "app", icon: "Wrench" },
+  { he: { n: "מירי כהן — מורה פרטית", t: "אנגלית · מתמטיקה · GCSE" }, en: { n: "Miri Cohen — Private tutor", t: "English · Maths · GCSE" }, status: "app", icon: "Book" },
+  { he: { n: "טיש & טיש — אדריכלות פנים", t: "בתי קהילה ובתים פרטיים" }, en: { n: "Tisch & Tisch — Interior arch.", t: "Community & private homes" }, status: "app", icon: "Sparkles" },
+  { he: { n: "ברוך גולן — שיפוצים", t: "מתמחה בשיפוצי מטבחים" }, en: { n: "Baruch Golan — Renovations", t: "Kitchen specialist" }, status: "pend", icon: "Wrench" },
+  { he: { n: "חנה לוין — צילום אירועים", t: "ברית · בר מצווה · חתונה" }, en: { n: "Chana Levin — Event photography", t: "Brit · bar mitzvah · wedding" }, status: "pend", icon: "Sparkles" },
+];
+
+const BizAdmin = () => {
+  const tx = useTx();
+  const [tab, setTab] = React.useState("app");
+  const counts = {
+    app: BIZ_LIST.filter(b => b.status === "app").length,
+    pend: BIZ_LIST.filter(b => b.status === "pend").length,
+  };
+  const filtered = BIZ_LIST.filter(b => b.status === tab);
+
+  return (
+    <div>
+      <div className="admin-section-eyebrow">
+        <I.Store2 /> {tx("פרנסה ושיתוף", "Livelihood & sharing")}
+      </div>
+      <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 26, color: "var(--c-blue-deep)", margin: "0 0 6px" }}>
+        {tx("ניהול לוח עסקי הקהילה", "Community business directory")}
+      </h2>
+      <p style={{ fontSize: 14, color: "var(--c-text-muted)", margin: "0 0 18px", maxWidth: 720 }}>
+        {tx(
+          "מאשרים, עורכים ומציגים את העסקים שמופיעים בקיוסק הציבורי של הקהילה. עדיפות ראשונה — עסקים של חברי הקהילה.",
+          "Approve, edit, and curate the businesses shown on the community's public kiosk. Members' businesses get first priority."
+        )}
+      </p>
+
+      <div className="feat-card">
+        <div className="feat-card-head">
+          <div>
+            <h3>{tx("ספריית העסקים", "Business directory")}</h3>
+            <div className="sub">{tx("מוצגים בקיוסק הציבורי · עידכון אחרון: היום בבוקר", "Shown on the public kiosk · Last updated: this morning")}</div>
+          </div>
+          <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+            <div className="seg-tabs">
+              <button className={tab === "app" ? "active" : ""} onClick={() => setTab("app")}>{tx("מאושרים", "Approved")} <span className="c">{counts.app}</span></button>
+              <button className={tab === "pend" ? "active" : ""} onClick={() => setTab("pend")}>{tx("ממתינים", "Pending")} <span className="c">{counts.pend}</span></button>
+            </div>
+            <button className="btn btn-primary btn-sm"><I.Plus /> {tx("עסק חדש", "Add business")}</button>
+          </div>
+        </div>
+        <div className="feat-card-pad">
+          <div className="biz-admin-grid">
+            {filtered.map((b, i) => {
+              const t = tx(b.he, b.en);
+              const Ico = I[b.icon] || I.Store;
+              return (
+                <div className="biz-admin-card" key={i}>
+                  <div className="ico"><Ico /></div>
+                  <div>
+                    <div className="n">{t.n}</div>
+                    <div className="meta">{t.t}</div>
+                    <div style={{ marginTop: 6 }}>
+                      <span className={"tag-mini " + b.status}>{b.status === "app" ? tx("מאושר", "Approved") : tx("ממתין לאישור", "Pending review")}</span>
+                    </div>
+                  </div>
+                  <button className="menu" title={tx("פעולות", "Actions")}><I.ChevDown /></button>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+window.GemachAdmin = GemachAdmin;
+window.GemachMember = GemachMember;
+window.AvotAdmin = AvotAdmin;
+window.AvotMember = AvotMember;
+window.PointsRafflesAdmin = PointsRafflesAdmin;
+window.PointsRafflesMember = PointsRafflesMember;
+window.AliyotAdmin = AliyotAdmin;
+window.AliyotMember = AliyotMember;
+window.BizAdmin = BizAdmin;
+
+  </script>
+
+  <script type="text/babel" data-presets="react">
+// Screen 1 — Public Community Board / Kiosk (bilingual)
+const KioskScreen = () => {
+  const tx = useTx();
+
+  const events = [
+    { d: "29", mHe: "מאי", mEn: "MAY", t: tx("ימי שישי 11:00", "Friday · 11:00"),
+      he: { name: "שיעור פרשת השבוע עם הרב אליעזר ויינברג", sub: "אולם הקטן · פתוח לכלל הקהילה" },
+      en: { name: "Weekly Parasha class with Rabbi E. Weinberg", sub: "Small Hall · Open to all" } },
+    { d: "30", mHe: "מאי", mEn: "MAY", t: tx("שבת 09:30", "Saturday · 09:30"),
+      he: { name: "בר מצווה — דניאל הלוי", sub: "תפילת שחרית חגיגית · קידוש בעקבותיה" },
+      en: { name: "Bar Mitzvah — Daniel Halevi", sub: "Festive Shacharit · Kiddush to follow" } },
+    { d: "01", mHe: "יוני", mEn: "JUN", t: tx("ראשון 20:00", "Sunday · 20:00"),
+      he: { name: "ערב נשים — הכנות לקבלת התורה", sub: "בית רחל פיירשטיין ע\"ה · מקום מוגבל" },
+      en: { name: "Women's evening — preparing for Shavuot", sub: "Beit Rachel Feuerstein z\"l · Limited seats" } },
+    { d: "02", mHe: "יוני", mEn: "JUN", t: tx("שני 19:30", "Monday · 19:30"),
+      he: { name: "אזכרה לזכרו של ר' משה בן אברהם זצ\"ל", sub: "מלאת שלושים יום · אולם ההספדים" },
+      en: { name: "Memorial — R. Moshe ben Avraham z\"l", sub: "Shloshim service · Memorial Hall" } },
+    { d: "03", mHe: "יוני", mEn: "JUN", t: tx("שלישי 18:00", "Tuesday · 18:00"),
+      he: { name: "שיעור מסכת ברכות — דף יומי", sub: "עם הרב יוסי שטרן · בית המדרש" },
+      en: { name: "Daf Yomi — Tractate Berakhot", sub: "With Rabbi Yossi Stern · Beit Midrash" } },
+  ];
+
+  const businesses = [
+    { he: { n: "ד\"ר רחל אביטל", t: "רופאת ילדים" }, en: { n: "Dr. Rachel Avital", t: "Pediatrician" }, icon: <I.Heart /> },
+    { he: { n: "אברהם שניידר", t: "עורך דין נדל\"ן" }, en: { n: "Abraham Schneider", t: "Real-estate attorney" }, icon: <I.Bag /> },
+    { he: { n: "מטבח חמדה — קייטרינג", t: "כשרות מהדרין" }, en: { n: "Chemda Kitchen — Catering", t: "Glatt kosher" }, icon: <I.Store /> },
+    { he: { n: "מוסך הלוי ובניו", t: "שירות לרכב" }, en: { n: "Halevi & Sons Garage", t: "Auto service" }, icon: <I.Wrench /> },
+    { he: { n: "מירי כהן — מורה פרטית", t: "אנגלית · מתמטיקה" }, en: { n: "Miri Cohen — Private tutor", t: "English · Math" }, icon: <I.Book /> },
+    { he: { n: "טיש & טיש", t: "אדריכלות פנים" }, en: { n: "Tisch & Tisch", t: "Interior architecture" }, icon: <I.Sparkles /> },
+  ];
+
+  const tickerItems = tx(
+    [
+      "ההרשמה לקייטנת \"כנפיים\" של תשפ\"ו נפתחה — מקומות מוגבלים",
+      "תודה לכל מי שתרם השבוע למבצע מזון לפסח · גויסו 14,800$",
+      "מועדון הצעירים מתחדש: כל מוצאי שבת ב-21:00",
+      "ועדת התפילה מחפשת מתנדבים לכבד את החזנות בימים נוראים",
+    ],
+    [
+      "Registration for the 5786 \"Kanafayim\" summer camp is now open — limited spots",
+      "Thank you to everyone who contributed this week to the Pesach food drive · $14,800 raised",
+      "Youth Club relaunches every Saturday night at 21:00",
+      "The Tefilla committee seeks volunteers to lead davening for the High Holidays",
+    ]
+  );
+
+  return (
+    <section className="screen" data-screen-label={tx("01 לוח קהילתי", "01 Community Board")}>
+      <div className="section-eyebrow">{tx("מסך 1 · תצוגת קיוסק ציבורית", "Screen 1 · Public kiosk view")}</div>
+      <div className="kiosk">
+        <div className="kiosk-hero">
+          <I.HalfStar className="magen-corner" style={{ color: "#A7E3F6", top: -30, insetInlineEnd: -30 }} />
+          <div className="kiosk-hero-grid">
+            <div className="kiosk-community">
+              <div className="crest"><I.StarOfDavid width="34" height="34" /></div>
+              <div>
+                <div className="name">{tx("קהילת אהבת ישראל", "Ahavat Yisrael Community")}</div>
+                <div className="place">{tx("גולדרס גרין · לונדון, אנגליה", "Golders Green · London, UK")}</div>
+              </div>
+            </div>
+            <div className="kiosk-parasha">
+              <div className="label">{tx("פרשת השבוע", "This week's parasha")}</div>
+              <div className="name">{tx("בְּהַעֲלֹתְךָ", "Beha'alotcha")}</div>
+              <div className="hebdate">{tx("י\"ז סיון תשפ\"ו · 30.5.2026", "17 Sivan 5786 · 30 May 2026")}</div>
+            </div>
+            <div className="kiosk-shabbat">
+              <div className="row">
+                <div className="label"><I.Candle /> {tx("כניסת שבת", "Candle lighting")}</div>
+                <div className="time">20:51</div>
+              </div>
+              <div className="row">
+                <div className="label"><I.Clock /> {tx("צאת השבת", "Havdalah")}</div>
+                <div className="time">22:18</div>
+              </div>
+              <div className="row">
+                <div className="label"><I.Pin /> {tx("זמני לונדון N11", "London N11 zmanim")}</div>
+                <div className="time" style={{ fontSize: 13, fontWeight: 600, color: "#A7E3F6" }}>
+                  {tx("גמרא 22:50", "R\"T 22:50")}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="kiosk-body">
+          <div className="kiosk-col">
+            <h2 className="kiosk-section-title">
+              <span className="underline-cyan"></span>
+              {tx("אירועים קרובים בקהילה", "Upcoming community events")}
+            </h2>
+            <div>
+              {events.map((e, i) => {
+                const txt = tx(e.he, e.en);
+                return (
+                  <div className="event-row" key={i}>
+                    <div className="event-date">
+                      <div className="d">{e.d}</div>
+                      <div className="m">{tx(e.mHe, e.mEn)}</div>
+                    </div>
+                    <div className="event-meta">
+                      <p className="name">{txt.name}</p>
+                      <p className="sub">{txt.sub}</p>
+                    </div>
+                    <div className="event-action">
+                      <div className="event-time">{e.t}</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="kiosk-col">
+            <h2 className="kiosk-section-title">
+              <span className="underline-cyan"></span>
+              {tx("קידוש השבת הבאה", "This Shabbat's Kiddush")}
+            </h2>
+            <div className="kiddush-card">
+              <div className="icon-wrap"><I.Kiddush /></div>
+              <div>
+                <div className="label">{tx("בְּחָסוּת", "SPONSORED BY")}</div>
+                <div className="who">{tx("משפחת רוזנברג", "The Rosenberg Family")}</div>
+                <div className="occasion">{tx("לרגל הולדת הנכד הראשון · מזל טוב!", "On the birth of their first grandchild · Mazal Tov!")}</div>
+              </div>
+            </div>
+
+            <h2 className="kiosk-section-title" style={{ marginTop: 22 }}>
+              <span className="underline-cyan"></span>
+              {tx("לוח עסקי הקהילה", "Community business directory")}
+            </h2>
+            <div className="business-grid">
+              {businesses.map((b, i) => {
+                const t = tx(b.he, b.en);
+                return (
+                  <div className="business-card" key={i}>
+                    <div className="biz-icon">{b.icon}</div>
+                    <div>
+                      <div className="biz-name">{t.n}</div>
+                      <div className="biz-trade">{t.t}</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        <div className="ticker">
+          <span className="badge">{tx("מבזקים", "BREAKING")}</span>
+          <div style={{ overflow: "hidden", flex: 1 }}>
+            <div className="scroll">
+              {[...tickerItems, ...tickerItems].map((t, i) => <span key={i}>{t}</span>)}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+window.KioskScreen = KioskScreen;
+
+  </script>
+
+  <script type="text/babel" data-presets="react">
+// Screen 2 — Member View (bilingual)
+const MemberScreen = () => {
+  const tx = useTx();
+  const [registered, setRegistered] = React.useState({ 1: true, 3: false, 2: false, 4: false });
+  const toggle = (i) => setRegistered((r) => ({ ...r, [i]: !r[i] }));
+
+  const events = [
+    { id: 1, he: { name: "סעודה שלישית — \"שלוש סעודות עם הרב\"", when: "שבת, 30.5 · 19:45", tag: "שיעור" },
+              en: { name: "Seudat Shlishit — \"Three Meals with the Rabbi\"", when: "Sat, 30 May · 19:45", tag: "Class" } },
+    { id: 2, he: { name: "ערב התרמה — \"בונים מקווה חדש\"", when: "מוצ\"ש, 30.5 · 21:30", tag: "מבצע מיוחד" },
+              en: { name: "Fundraiser — \"Building the new Mikveh\"", when: "Sat night, 30 May · 21:30", tag: "Campaign" } },
+    { id: 3, he: { name: "פיקניק קהילתי — שבועות בפארק", when: "ראשון, 1.6 · 11:00–15:00", tag: "משפחות" },
+              en: { name: "Community picnic — Shavuot in the park", when: "Sun, 1 Jun · 11:00–15:00", tag: "Families" } },
+    { id: 4, he: { name: "שיעור גמרא לנשים — \"דרכי שלום\"", when: "שלישי, 3.6 · 20:30", tag: "שיעור" },
+              en: { name: "Women's Gemara class — \"Darchei Shalom\"", when: "Tue, 3 Jun · 20:30", tag: "Class" } },
+  ];
+
+  const history = [
+    { he: { w: "השתתפת בשיעור פרשת השבוע", n: "ערב שבת, 23.5 · עם הרב ויינברג" },
+      en: { w: "You attended the Weekly Parasha class", n: "Erev Shabbat, 23 May · with Rabbi Weinberg" },
+      tags: [{ he: "שיעור", en: "Class", c: "tag" }] },
+    { he: { w: "תרמת לקרן החסד של הקהילה — £180", n: "שלישי, 19.5 · קבלה נשלחה לדוא\"ל" },
+      en: { w: "You donated to the community Chesed fund — £180", n: "Tue, 19 May · Receipt emailed" },
+      tags: [{ he: "תרומה", en: "Donation", c: "tag-success" }] },
+    { he: { w: "הזמנת מקום לסעודת ליל הסדר הקהילתית", n: "ראשון, 3.5 · 4 מקומות" },
+      en: { w: "You reserved seats for the community Seder", n: "Sun, 3 May · 4 seats" },
+      tags: [{ he: "אירוע", en: "Event", c: "tag-cyan" }] },
+    { he: { w: "התנדבת בערב חלוקת חבילות לפסח", n: "רביעי, 1.4 · 3.5 שעות" },
+      en: { w: "You volunteered for the Pesach packages drive", n: "Wed, 1 Apr · 3.5 hours" },
+      tags: [{ he: "התנדבות", en: "Volunteer", c: "tag-mustard" }] },
+    { he: { w: "אישרת רישום הילדים לקייטנת \"כנפיים\"", n: "שני, 16.3 · שני ילדים" },
+      en: { w: "You enrolled your children in the \"Kanafayim\" camp", n: "Mon, 16 Mar · 2 children" },
+      tags: [{ he: "ילדים", en: "Kids", c: "tag" }] },
+  ];
+
+  return (
+    <section className="screen" data-screen-label={tx("02 מסך החבר", "02 Member view")}>
+      <div className="section-eyebrow">{tx("מסך 2 · תצוגת חבר קהילה", "Screen 2 · Community member view")}</div>
+      <div className="member-wrap">
+        <aside className="member-side">
+          <div className="member-card-hero">
+            <I.HalfStar className="magen-corner" style={{ color: "#A7E3F6", top: -30, insetInlineEnd: -30 }} />
+            <div className="avatar">{tx("י\"ה", "JH")}</div>
+            <div className="hi">{tx("ערב טוב", "GOOD EVENING")}</div>
+            <div className="name">{tx("יונתן הירש", "Jonathan Hirsch")}</div>
+            <div className="role">{tx("חבר מן המניין · מאז 2018", "Full member · Since 2018")}</div>
+            <div className="stats-row">
+              <div className="stat">
+                <div className="n">47</div>
+                <div className="l">{tx("אירועים השנה", "Events this year")}</div>
+              </div>
+              <div className="stat">
+                <div className="n">12</div>
+                <div className="l">{tx("תרומות", "Donations")}</div>
+              </div>
+              <div className="stat">
+                <div className="n">3</div>
+                <div className="l">{tx("התנדבויות", "Volunteer acts")}</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="alert-amber">
+            <div className="label"><I.Bell /> {tx("תרומה ממתינה לתשלום", "Donation awaiting payment")}</div>
+            <div className="amount">£180.00</div>
+            <div className="what">
+              {tx(
+                "התחייבות לקרן בית הכנסת מערב ראש השנה. תוקף הלינק עד 15.6.",
+                "Pledge to the Shul Building Fund from Rosh Hashana eve. Link valid until 15 Jun."
+              )}
+            </div>
+            <button className="btn btn-primary">
+              <I.Coins /> {tx("שלמו עכשיו בלחיצה", "Pay now in one click")}
+            </button>
+          </div>
+
+          <div className="quick-links">
+            <a href="#"><I.Calendar /> {tx("תפילות והזמנים שלי", "My tefillot & zmanim")} <span className="arrow"><I.Arrow /></span></a>
+            <a href="#"><I.Heart /> {tx("תרומות והתחייבויות", "Donations & pledges")} <span className="arrow"><I.Arrow /></span></a>
+            <a href="#"><I.Book /> {tx("חוגים ושיעורים", "Classes & shiurim")} <span className="arrow"><I.Arrow /></span></a>
+            <a href="#"><I.User /> {tx("פרטים אישיים", "Personal details")} <span className="arrow"><I.Arrow /></span></a>
+          </div>
+        </aside>
+
+        <main className="member-main">
+          <div className="greet-band">
+            <div className="greet-text">
+              <div className="big">{tx("שלום יונתן, ברוך בואך 👋", "Hi Jonathan, welcome back 👋")}</div>
+              <div className="small">
+                {tx(
+                  "שני אירועים נוספו לחישוב שלך השבוע · יש לך התראה אחת לטיפול.",
+                  "Two new events have been added for you this week · One alert needs your attention."
+                )}
+              </div>
+            </div>
+            <div className="time-pill">
+              <I.Clock /> {tx("י\"ז סיון תשפ\"ו · 18:42", "17 Sivan 5786 · 18:42")}
+            </div>
+          </div>
+
+          <div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 10 }}>
+              <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 20, color: "var(--c-blue-deep)", margin: 0 }}>
+                {tx("אירועים שמומלצים עבורך", "Events recommended for you")}
+              </h3>
+              <a href="#" style={{ color: "var(--c-blue)", fontSize: 13, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4 }}>
+                {tx("כל האירועים", "All events")} <I.Arrow className="lt-flip" />
+              </a>
+            </div>
+            <div className="event-grid">
+              {events.map((e) => {
+                const t = tx(e.he, e.en);
+                return (
+                  <div key={e.id} className={"member-event " + (registered[e.id] ? "registered" : "")}>
+                    <div className="top">
+                      <div>
+                        <p className="ev-name">{t.name}</p>
+                        <div className="ev-when"><I.Clock /> {t.when}</div>
+                      </div>
+                      <span className="tag tag-cyan">{t.tag}</span>
+                    </div>
+                    <div className="ev-actions">
+                      {registered[e.id] ? (
+                        <button className="btn btn-ghost btn-sm" onClick={() => toggle(e.id)}>
+                          <I.Check /> {tx("נרשמת — בטל", "Registered — cancel")}
+                        </button>
+                      ) : (
+                        <button className="btn btn-primary btn-sm" onClick={() => toggle(e.id)}>
+                          <I.Plus /> {tx("הרשמו אותי", "Register me")}
+                        </button>
+                      )}
+                      <button className="btn btn-ghost btn-sm">{tx("פרטים", "Details")}</button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="member-feat-grid">
+            <AliyotMember />
+            <AvotMember />
+            <GemachMember />
+            <PointsRafflesMember />
+          </div>
+
+          <div className="history-list">
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6 }}>
+              <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 18, color: "var(--c-blue-deep)", margin: 0 }}>
+                {tx("ההשתתפות שלי בקהילה", "My community activity")}
+              </h3>
+              <span className="help-note"><I.Clock /> {tx("90 הימים האחרונים", "Last 90 days")}</span>
+            </div>
+            {history.map((h, i) => {
+              const t = tx(h.he, h.en);
+              return (
+                <div className="history-row" key={i}>
+                  <div><div className="dot"></div></div>
+                  <div>
+                    <div className="what">{t.w}</div>
+                    <div className="when">{t.n}</div>
+                  </div>
+                  <div className="tag-row">
+                    {h.tags.map((tg, j) => <span key={j} className={"tag " + tg.c}>{tx(tg.he, tg.en)}</span>)}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </main>
+      </div>
+    </section>
+  );
+};
+
+window.MemberScreen = MemberScreen;
+
+  </script>
+
+  <script type="text/babel" data-presets="react">
+// Screen 3 — Admin / Gabbai Dashboard (bilingual) — v2 with sidebar nav + new feature views
+const AdminScreen = () => {
+  const tx = useTx();
+  const { lang } = useLang();
+  const [section, setSection] = React.useState("dashboard");
+
+  const [amount, setAmount] = React.useState("360");
+  const [member, setMember] = React.useState(tx("רוזנברג, יעקב ושירה", "Rosenberg, Yaakov & Shira"));
+  const [purpose, setPurpose] = React.useState(tx("עליה לתורה — פרשת בהעלותך", "Aliyah la-Torah — Parashat Beha'alotcha"));
+
+  React.useEffect(() => {
+    setMember(tx("רוזנברג, יעקב ושירה", "Rosenberg, Yaakov & Shira"));
+    setPurpose(tx("עליה לתורה — פרשת בהעלותך", "Aliyah la-Torah — Parashat Beha'alotcha"));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lang]);
+
+  const sideLinks = [
+    { gHe: "מבט-על", gEn: "Overview", items: [
+      { id: "dashboard", he: "סקירה כללית", en: "Dashboard", c: 0, icon: <I.Sparkles /> },
+      { id: "alerts", he: "יומן והתראות", en: "Journal & alerts", c: 7, icon: <I.Bell /> },
+    ]},
+    { gHe: "קהילה", gEn: "Community", items: [
+      { id: "events", he: "אירועים", en: "Events", c: 14, icon: <I.Calendar /> },
+      { id: "members", he: "חברי הקהילה", en: "Members", c: 287, icon: <I.Users /> },
+      { id: "tefilla", he: "תפילות ומניינים", en: "Tefillot & minyanim", c: 3, icon: <I.Book /> },
+    ]},
+    { gHe: "פעילות חדשה", gEn: "Programs", items: [
+      { id: "aliyot", he: "סידור עליות", en: "Aliyot board", c: 8, icon: <I.TorahScroll /> },
+      { id: "gemach", he: "גמ\"ח ומציאון", en: "Gemach", c: 48, icon: <I.Handshake /> },
+      { id: "avot", he: "אבות ובנים", en: "Avot u-Vanim", c: 8, icon: <I.Family /> },
+      { id: "points", he: "חוגים והגרלות", en: "Classes & raffles", c: 4, icon: <I.Award /> },
+      { id: "biz", he: "לוח עסקים", en: "Business directory", c: 8, icon: <I.Store2 /> },
+    ]},
+    { gHe: "פיננסי", gEn: "Finance", items: [
+      { id: "fin", he: "תרומות וגבייה", en: "Donations & dues", c: 6, icon: <I.Coins /> },
+      { id: "reports", he: "דוחות חודשיים", en: "Monthly reports", c: null, icon: <I.TrendUp /> },
+    ]},
+    { gHe: "מערכת", gEn: "System", items: [
+      { id: "settings", he: "הגדרות הקהילה", en: "Community settings", c: null, icon: <I.Settings /> },
+    ]},
+  ];
+
+  const eventRows = [
+    { he: { n: "ערב התרמה — מקווה חדש", w: "מוצ\"ש 30.5 · 21:30", s: "פעיל" },
+      en: { n: "Fundraiser — new Mikveh", w: "Sat night 30 May · 21:30", s: "Active" },
+      reg: 78, cap: 120, tag: "tag-amber" },
+    { he: { n: "פיקניק שבועות בפארק", w: "ראשון 1.6 · 11:00", s: "פעיל" },
+      en: { n: "Shavuot picnic in the park", w: "Sun 1 Jun · 11:00", s: "Active" },
+      reg: 154, cap: 200, tag: "tag-success" },
+    { he: { n: "שיעור גמרא לנשים", w: "שלישי 3.6 · 20:30", s: "פעיל" },
+      en: { n: "Women's Gemara class", w: "Tue 3 Jun · 20:30", s: "Active" },
+      reg: 22, cap: 40, tag: "tag-success" },
+    { he: { n: "בר מצווה — דניאל הלוי", w: "שבת 30.5 · 09:30", s: "אישור משפחה" },
+      en: { n: "Bar Mitzvah — Daniel Halevi", w: "Sat 30 May · 09:30", s: "Family approval" },
+      reg: 95, cap: 110, tag: "tag" },
+    { he: { n: "אזכרה ר' משה ז\"ל", w: "שני 2.6 · 19:30", s: "פעיל" },
+      en: { n: "Memorial R. Moshe z\"l", w: "Mon 2 Jun · 19:30", s: "Active" },
+      reg: 41, cap: 80, tag: "tag-success" },
+  ];
+
+  const recentMembers = [
+    { he: { i: "ר\"ל", n: "רחל לוי", m: "חברה · הצטרפה 12.3.2026", r: "ועדת חינוך" },
+      en: { i: "RL", n: "Rachel Levi", m: "Member · Joined 12 Mar 2026", r: "Education committee" } },
+    { he: { i: "א\"ש", n: "אברהם שמש", m: "חבר · הצטרף 4.2.2026", r: "—" },
+      en: { i: "AS", n: "Abraham Shemesh", m: "Member · Joined 4 Feb 2026", r: "—" } },
+    { he: { i: "ש\"ב", n: "שירה בן-עמי", m: "חברה · הצטרפה 28.1.2026", r: "ועדת אירועים" },
+      en: { i: "SB", n: "Shira Ben-Ami", m: "Member · Joined 28 Jan 2026", r: "Events committee" } },
+    { he: { i: "מ\"ק", n: "מרדכי קצנלבוגן", m: "חבר ועד · מאז 2014", r: "גזבר" },
+      en: { i: "MK", n: "Mordechai Katzenelbogen", m: "Board member · Since 2014", r: "Treasurer" } },
+    { he: { i: "ד\"פ", n: "דבורה פרנקל", m: "חברה · הצטרפה 11.1.2026", r: "—" },
+      en: { i: "DF", n: "Devorah Frankel", m: "Member · Joined 11 Jan 2026", r: "—" } },
+  ];
+
+  const templates = [
+    { he: { n: "תבנית חג שבועות", m: "12 משימות · הופעל פעמיים" },
+      en: { n: "Shavuot template", m: "12 tasks · Run twice" }, icon: <I.Sparkles /> },
+    { he: { n: "ערב נוער חודשי", m: "9 משימות · 14 הפעלות" },
+      en: { n: "Monthly youth night", m: "9 tasks · 14 runs" }, icon: <I.Bolt /> },
+    { he: { n: "טקס אזכרה", m: "תפילה · הספד · קידוש" },
+      en: { n: "Memorial service", m: "Tefillah · Eulogy · Kiddush" }, icon: <I.Candle /> },
+    { he: { n: "אירוע התרמה מובנה", m: "מטרה · גרף · לינק תשלום" },
+      en: { n: "Structured fundraiser", m: "Goal · Chart · Payment link" }, icon: <I.Coins /> },
+  ];
+
+  // ---- DASHBOARD VIEW (the original) ----
+  const Dashboard = () => (
+    <React.Fragment>
+      <div className="admin-header">
+        <div>
+          <h2>{tx("שלום הרב, בוקר טוב", "Good morning, Rabbi")}</h2>
+          <div className="sub">
+            {tx(
+              "קהילת אהבת ישראל, לונדון · 287 חברים פעילים · 14 אירועים השבוע",
+              "Ahavat Yisrael Community, London · 287 active members · 14 events this week"
+            )}
+          </div>
+        </div>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button className="btn btn-ghost"><I.Send /> {tx("שליחת עלון", "Send newsletter")}</button>
+          <button className="btn btn-primary"><I.Plus /> {tx("אירוע חדש", "New event")}</button>
+        </div>
+      </div>
+
+      <div className="kpi-row">
+        <div className="kpi-card feature">
+          <div className="icon-corner"><I.Users /></div>
+          <div className="label">{tx("חברים פעילים", "Active members")}</div>
+          <div className="value">287</div>
+          <div className="delta" style={{ color: "#A7E3F6" }}><I.ArrowUp /> {tx("+12 החודש", "+12 this month")}</div>
+        </div>
+        <div className="kpi-card">
+          <div className="icon-corner"><I.Calendar /></div>
+          <div className="label">{tx("אירועים בשבוע", "Events this week")}</div>
+          <div className="value">14</div>
+          <div className="delta"><I.ArrowUp /> {tx("4 חדשים", "4 new")}</div>
+        </div>
+        <div className="kpi-card">
+          <div className="icon-corner"><I.Handshake /></div>
+          <div className="label">{tx("פעיל במציאון", "Items in gemach")}</div>
+          <div className="value">48</div>
+          <div className="delta"><I.ArrowUp /> +6</div>
+        </div>
+        <div className="kpi-card">
+          <div className="icon-corner"><I.Bell /></div>
+          <div className="label">{tx("התראות פתוחות", "Open alerts")}</div>
+          <div className="value">7</div>
+          <div className="delta down">{tx("3 לטיפול היום", "3 due today")}</div>
+        </div>
+      </div>
+
+      <div className="admin-grid">
+        <div className="events-table">
+          <div className="head">
+            <h3>{tx("אירועים בשבועיים הקרובים", "Events in the next 2 weeks")}</h3>
+            <div style={{ display: "flex", gap: 6 }}>
+              <button className="btn btn-ghost btn-sm"><I.Search /> {tx("חיפוש", "Search")}</button>
+              <button className="btn btn-blue btn-sm"><I.Plus /> {tx("אירוע", "Event")}</button>
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th style={{ width: "38%" }}>{tx("אירוע", "Event")}</th>
+                <th>{tx("מתי", "When")}</th>
+                <th>{tx("הרשמות", "Registrations")}</th>
+                <th>{tx("סטטוס", "Status")}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {eventRows.map((r, i) => {
+                const t = tx(r.he, r.en);
+                return (
+                  <tr key={i}>
+                    <td>
+                      <div className="ev-cell">
+                        <span className="n">{t.n}</span>
+                        <span className="s">{tx("מארגן: ועדת אירועים", "Organizer: Events committee")}</span>
+                      </div>
+                    </td>
+                    <td>{t.w}</td>
+                    <td>
+                      <div className="attendance-bar">
+                        <div className="bar"><div style={{ width: `${Math.round((r.reg / r.cap) * 100)}%` }}></div></div>
+                        <span className="num">{r.reg}/{r.cap}</span>
+                      </div>
+                    </td>
+                    <td><span className={"tag " + r.tag}>{t.s}</span></td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="donation-card">
+          <h3>{tx("תרומה חדשה — הזרמה לחבר", "New donation — push to member")}</h3>
+          <p className="help">
+            {tx(
+              "הזנת התרומה תפתח אוטומטית התראה לחבר עם לינק תשלום מאובטח.",
+              "Submitting will auto-trigger a member alert with a secure payment link."
+            )}
+          </p>
+
+          <div className="flow-strip">
+            <div className="step active"><I.Plus /> {tx("הזנת תרומה", "Enter")}</div>
+            <div className="arrow">→</div>
+            <div className="step"><I.Bell /> {tx("התראה לחבר", "Notify")}</div>
+            <div className="arrow">→</div>
+            <div className="step"><I.Send /> {tx("לינק תשלום", "Pay link")}</div>
+            <div className="arrow">→</div>
+            <div className="step"><I.Check /> {tx("סגירת מעגל", "Confirm")}</div>
+          </div>
+
+          <div className="field">
+            <label>{tx("חבר קהילה", "Community member")}</label>
+            <input value={member} onChange={(e) => setMember(e.target.value)} />
+          </div>
+          <div className="field row2">
+            <div className="field">
+              <label>{tx("סכום", "Amount")}</label>
+              <div className="field-amount-input">
+                <input value={amount} onChange={(e) => setAmount(e.target.value)} />
+                <span className="symbol">£</span>
+              </div>
+            </div>
+            <div className="field">
+              <label>{tx("קטגוריה", "Category")}</label>
+              <select defaultValue="aliya">
+                <option value="aliya">{tx("עליה לתורה", "Aliyah la-Torah")}</option>
+                <option value="building">{tx("קרן בית הכנסת", "Shul Building Fund")}</option>
+                <option value="chesed">{tx("קרן חסד", "Chesed Fund")}</option>
+                <option value="kiddush">{tx("קידוש שבת", "Shabbat Kiddush")}</option>
+              </select>
+            </div>
+          </div>
+          <div className="field">
+            <label>{tx("נושא / הקדשה", "Dedication / occasion")}</label>
+            <input value={purpose} onChange={(e) => setPurpose(e.target.value)} />
+          </div>
+          <button className="btn btn-primary" style={{ width: "100%", marginTop: 6 }}>
+            <I.Send /> {tx("שלחו התראה עם לינק תשלום", "Send alert with payment link")}
+          </button>
+          <div className="help-note" style={{ marginTop: 10, justifyContent: "center" }}>
+            <I.Check /> {tx("בממוצע — נסגר תוך 38 שעות", "Average — closed within 38 hours")}
+          </div>
+        </div>
+      </div>
+
+      <div className="templates-strip">
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+          <h3>{tx("תבניות הפעלה מהירה", "Quick activation templates")}</h3>
+          <a href="#" style={{ color: "var(--c-blue)", fontSize: 13, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4 }}>
+            {tx("ספריית תבניות מלאה", "Full template library")} <I.Arrow className="lt-flip" />
+          </a>
+        </div>
+        <div className="template-grid">
+          {templates.map((t, i) => {
+            const txt = tx(t.he, t.en);
+            return (
+              <div className="template-card" key={i}>
+                <div className="icon-pill">{t.icon}</div>
+                <p className="name">{txt.n}</p>
+                <div className="meta">{txt.m}</div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="members-card">
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 8 }}>
+          <h3>{tx("חברים שהצטרפו לאחרונה", "Recently joined members")}</h3>
+          <button className="btn btn-ghost btn-sm"><I.Plus /> {tx("הוספת חבר", "Add member")}</button>
+        </div>
+        {recentMembers.map((m, i) => {
+          const t = tx(m.he, m.en);
+          return (
+            <div className="member-row" key={i}>
+              <div className="av">{t.i}</div>
+              <div>
+                <div className="n">{t.n}</div>
+                <div className="meta">{t.m}</div>
+              </div>
+              <div className="role-tag">{t.r}</div>
+              <button className="btn btn-ghost btn-sm quick">{tx("פתח כרטיס", "Open card")}</button>
+            </div>
+          );
+        })}
+      </div>
+    </React.Fragment>
+  );
+
+  return (
+    <section className="screen" data-screen-label={tx("03 ניהול קהילה", "03 Community admin")}>
+      <div className="section-eyebrow">
+        {tx("מסך 3 · מסך מנהל הקהילה (גבאי / מזכירות)", "Screen 3 · Community admin (Gabbai / office)")}
+      </div>
+      <div className="admin-wrap">
+        <aside className="admin-sidebar">
+          {sideLinks.map((g, i) => (
+            <div className="group" key={i}>
+              <div className="group-title">{tx(g.gHe, g.gEn)}</div>
+              {g.items.map((it, j) => (
+                <a href="#" key={j}
+                   className={section === it.id ? "active" : ""}
+                   onClick={(e) => { e.preventDefault(); setSection(it.id); }}>
+                  {it.icon}
+                  <span>{tx(it.he, it.en)}</span>
+                  {it.c !== null && it.c !== 0 && <span className="count">{it.c}</span>}
+                </a>
+              ))}
+            </div>
+          ))}
+        </aside>
+
+        <div className="admin-main">
+          {section === "dashboard" && <Dashboard />}
+          {section === "aliyot" && <AliyotAdmin />}
+          {section === "gemach" && <GemachAdmin />}
+          {section === "avot" && <AvotAdmin />}
+          {section === "points" && <PointsRafflesAdmin />}
+          {section === "biz" && <BizAdmin />}
+          {section !== "dashboard" && section !== "aliyot" && section !== "gemach" && section !== "avot" && section !== "points" && section !== "biz" && (
+            <div style={{ background: "#fff", border: "1px dashed var(--c-border)", borderRadius: "var(--r-lg)", padding: "60px 28px", textAlign: "center", color: "var(--c-text-muted)" }}>
+              <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 20, color: "var(--c-blue-deep)", marginBottom: 6 }}>
+                {tx("המסך הזה בהכנה", "This view is in preparation")}
+              </div>
+              <div style={{ fontSize: 14 }}>
+                {tx("בדמו הנוכחי הוטענו: סקירה, סידור עליות, גמ\"ח, אבות ובנים, חוגים והגרלות, ולוח עסקים.",
+                    "The current demo loads: Dashboard, Aliyot, Gemach, Avot u-Vanim, Classes & raffles, and Business directory.")}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+window.AdminScreen = AdminScreen;
+
+  </script>
+
+  <script type="text/babel" data-presets="react">
+// Screen 4 — WZO Network Super-Admin (bilingual)
+const SuperAdminScreen = () => {
+  const tx = useTx();
+
+  const latLngTo = (lat, lng) => ({
+    left: ((lng + 180) / 360) * 100,
+    top: ((75 - lat) / 130) * 100,
+  });
+
+  const pins = [
+    { he: "ירושלים", en: "Jerusalem", country_he: "ישראל · מטה", country_en: "Israel · HQ", lat: 31.78, lng: 35.22, large: true },
+    { he: "ניו יורק", en: "New York", country_he: "ארה\"ב", country_en: "USA", lat: 40.71, lng: -74.0, large: true },
+    { he: "לונדון", en: "London", country_he: "אנגליה", country_en: "UK", lat: 51.5, lng: -0.13, large: true },
+    { he: "מלבורן", en: "Melbourne", country_he: "אוסטרליה", country_en: "Australia", lat: -37.81, lng: 144.96, large: true },
+    { he: "בואנוס איירס", en: "Buenos Aires", country_he: "ארגנטינה", country_en: "Argentina", lat: -34.61, lng: -58.38 },
+    { he: "מקסיקו סיטי", en: "Mexico City", country_he: "מקסיקו", country_en: "Mexico", lat: 19.43, lng: -99.13 },
+    { he: "טורונטו", en: "Toronto", country_he: "קנדה", country_en: "Canada", lat: 43.65, lng: -79.38 },
+    { he: "מנצ'סטר", en: "Manchester", country_he: "אנגליה", country_en: "UK", lat: 53.48, lng: -2.24 },
+    { he: "אנטוורפן", en: "Antwerp", country_he: "בלגיה", country_en: "Belgium", lat: 51.22, lng: 4.40 },
+    { he: "ז'נבה", en: "Geneva", country_he: "שווייץ", country_en: "Switzerland", lat: 46.20, lng: 6.14 },
+    { he: "פריז", en: "Paris", country_he: "צרפת", country_en: "France", lat: 48.85, lng: 2.35 },
+    { he: "מילאנו", en: "Milan", country_he: "איטליה", country_en: "Italy", lat: 45.46, lng: 9.19 },
+    { he: "ברלין", en: "Berlin", country_he: "גרמניה", country_en: "Germany", lat: 52.52, lng: 13.40 },
+    { he: "וינה", en: "Vienna", country_he: "אוסטריה", country_en: "Austria", lat: 48.21, lng: 16.37 },
+    { he: "מוסקבה", en: "Moscow", country_he: "רוסיה", country_en: "Russia", lat: 55.75, lng: 37.62 },
+    { he: "סאו פאולו", en: "São Paulo", country_he: "ברזיל", country_en: "Brazil", lat: -23.55, lng: -46.63 },
+    { he: "יוהנסבורג", en: "Johannesburg", country_he: "דרא\"פ", country_en: "South Africa", lat: -26.20, lng: 28.04 },
+    { he: "סידני", en: "Sydney", country_he: "אוסטרליה", country_en: "Australia", lat: -33.87, lng: 151.21 },
+    { he: "מומבאי", en: "Mumbai", country_he: "הודו", country_en: "India", lat: 19.08, lng: 72.88 },
+    { he: "לוס אנג'לס", en: "Los Angeles", country_he: "ארה\"ב", country_en: "USA", lat: 34.05, lng: -118.24 },
+    { he: "מיאמי", en: "Miami", country_he: "ארה\"ב", country_en: "USA", lat: 25.76, lng: -80.19 },
+    { he: "שיקגו", en: "Chicago", country_he: "ארה\"ב", country_en: "USA", lat: 41.88, lng: -87.63 },
+  ];
+
+  const leaders = [
+    { rank: 1, he: { n: "קהילת אהבת ישראל", loc: "לונדון · אנגליה", v: "+38%", l: "צמיחה" },
+                en: { n: "Ahavat Yisrael", loc: "London · UK", v: "+38%", l: "Growth" } },
+    { rank: 2, he: { n: "אור החיים", loc: "מלבורן · אוסטרליה", v: "94%", l: "מילוי אירועים" },
+                en: { n: "Or Ha-Chayim", loc: "Melbourne · Australia", v: "94%", l: "Event fill-rate" } },
+    { rank: 3, he: { n: "בית יעקב", loc: "מקסיקו סיטי", v: "318", l: "אינטראקציות שבוע" },
+                en: { n: "Beit Yaakov", loc: "Mexico City", v: "318", l: "Weekly interactions" } },
+    { rank: 4, he: { n: "תפארת ישראל", loc: "יוהנסבורג", v: "1.4K", l: "תורמים פעילים" },
+                en: { n: "Tiferet Yisrael", loc: "Johannesburg", v: "1.4K", l: "Active donors" } },
+    { rank: 5, he: { n: "נחלת אבות", loc: "טורונטו · קנדה", v: "12", l: "אירועים החודש" },
+                en: { n: "Nachalat Avot", loc: "Toronto · Canada", v: "12", l: "Events this month" } },
+  ];
+
+  const activity = [
+    { he: "קהילת בית יעקב (מקסיקו) שיגרה התראת תרומה ל-46 חברים",
+      en: "Beit Yaakov (Mexico) sent a donation alert to 46 members",
+      time_he: "לפני 4 דק'", time_en: "4 min ago", c: "amber", icon: <I.Coins /> },
+    { he: "אהבת ישראל (לונדון) פתחה אירוע: 'ערב התרמה — מקווה חדש'",
+      en: "Ahavat Yisrael (London) opened an event: \"New Mikveh Fundraiser\"",
+      time_he: "לפני 12 דק'", time_en: "12 min ago", c: "", icon: <I.Calendar /> },
+    { he: "הצטרפו 14 חברים חדשים לקהילה בסאו פאולו",
+      en: "14 new members joined the São Paulo community",
+      time_he: "לפני 28 דק'", time_en: "28 min ago", c: "cyan", icon: <I.Users /> },
+    { he: "תבנית 'חג שבועות' הופעלה ע\"י 7 קהילות במקביל",
+      en: "\"Shavuot\" template activated by 7 communities in parallel",
+      time_he: "לפני שעה", time_en: "1 hour ago", c: "", icon: <I.Bolt /> },
+    { he: "המחלקה שיגרה עדכון מערכת לכל הרשת · v2.4.1",
+      en: "The Department pushed a system update to the entire network · v2.4.1",
+      time_he: "לפני 3 שעות", time_en: "3 hours ago", c: "", icon: <I.Settings /> },
+  ];
+
+  return (
+    <section className="screen" data-screen-label={tx("04 מסך-העל", "04 Super-admin")}>
+      <div className="section-eyebrow">
+        {tx("מסך 4 · מסך-העל של המחלקה לגיוס משאבים וחיזוק הקשר עם קהילות בתפוצות", "Screen 4 · Diaspora Department — network super-admin")}
+      </div>
+
+      <div className="super-hero">
+        <I.HalfStar className="magen-corner" style={{ color: "#A7E3F6", top: -40, insetInlineEnd: -40, width: 280, height: 280 }} />
+        <div className="row1">
+          <div>
+            <div className="eyebrow">
+              <span className="dot"></span>
+              {tx("מבט-על · רשת הקהילות העולמית", "Network overview · global communities")}
+            </div>
+            <h1>{tx("284 קהילות. עולם אחד.", "284 communities. One world.")}</h1>
+            <p className="sub">
+              {tx(
+                "תמונת מצב חיה של כל הקהילות המנוהלות תחת תשתית המחלקה — מהבית לבית, מהיבשת ליבשת.",
+                "A live snapshot of every community managed on the Department platform — home to home, continent to continent."
+              )}
+            </p>
+          </div>
+          <div className="time-block">
+            <div className="now">06:42 GMT</div>
+            <div className="where">{tx("ירושלים · 09:42 שעון מקומי", "Jerusalem · 09:42 local time")}</div>
+          </div>
+        </div>
+
+        <div className="super-kpi-row">
+          <div className="super-kpi">
+            <div className="label">{tx("קהילות פעילות", "Active communities")}</div>
+            <div className="value">284</div>
+            <div className="delta"><I.ArrowUp /> {tx("+6 הצטרפו החודש", "+6 joined this month")}</div>
+          </div>
+          <div className="super-kpi">
+            <div className="label">{tx("אינטראקציות החודש", "Interactions this month")}</div>
+            <div className="value">412K</div>
+            <div className="delta"><I.ArrowUp /> {tx("+24% מול אשתקד", "+24% YoY")}</div>
+          </div>
+          <div className="super-kpi amber">
+            <div className="label">{tx("אירועים פעילים ברגע זה", "Live events right now")}</div>
+            <div className="value">1,847</div>
+            <div className="delta">{tx("ב-72 ערים", "across 72 cities")}</div>
+          </div>
+          <div className="super-kpi">
+            <div className="label">{tx("חברים ברשת", "Members on the network")}</div>
+            <div className="value">38.4K</div>
+            <div className="delta"><I.ArrowUp /> {tx("+1,240 השבוע", "+1,240 this week")}</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="super-grid">
+        <div className="map-card">
+          <div className="map-head">
+            <div>
+              <h3>{tx("הרשת על המפה", "The network, mapped")}</h3>
+              <div style={{ fontSize: 12.5, color: "var(--c-text-muted)", marginTop: 2 }}>
+                {tx("22 קהילות הראשיות מוצגות · לחיצה לכניסה", "22 lead communities shown · click to enter")}
+              </div>
+            </div>
+            <div className="legend">
+              <span className="swatch"><span className="d" style={{ background: "var(--c-blue)" }}></span> {tx("מרכזי-על (200+ חברים)", "Hub (200+ members)")}</span>
+              <span className="swatch"><span className="d" style={{ background: "var(--c-amber)" }}></span> {tx("קהילה פעילה", "Active community")}</span>
+            </div>
+          </div>
+          <div className="world-stage">
+            <div className="world-grid"></div>
+            <span className="continent-label" style={{ top: "16%", left: "20%" }}>{tx("צפ' אמריקה", "NORTH AMERICA")}</span>
+            <span className="continent-label" style={{ top: "68%", left: "30%" }}>{tx("דר' אמריקה", "SOUTH AMERICA")}</span>
+            <span className="continent-label" style={{ top: "10%", left: "48%" }}>{tx("אירופה", "EUROPE")}</span>
+            <span className="continent-label" style={{ top: "60%", left: "52%" }}>{tx("אפריקה", "AFRICA")}</span>
+            <span className="continent-label" style={{ top: "28%", left: "70%" }}>{tx("אסיה", "ASIA")}</span>
+            <span className="continent-label" style={{ top: "82%", left: "84%" }}>{tx("אוקיאניה", "OCEANIA")}</span>
+
+            {pins.map((p, i) => {
+              const pos = latLngTo(p.lat, p.lng);
+              const city = tx(p.he, p.en);
+              return (
+                <div
+                  key={i}
+                  className={"pin " + (p.large ? "large" : "")}
+                  style={{ left: pos.left + "%", top: pos.top + "%" }}
+                  title={city}
+                >
+                  <span className="glow"></span>
+                  <span className="dot"></span>
+                  {p.large && <span className="label">{city}</span>}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div>
+          <div className="leader-card">
+            <h3>{tx("קהילות מובילות החודש", "Top communities this month")}</h3>
+            {leaders.map((l) => {
+              const t = tx(l.he, l.en);
+              return (
+                <div className={"leader-row " + (l.rank <= 3 ? "top" : "")} key={l.rank}>
+                  <div className="rank">{l.rank}</div>
+                  <div className="info">
+                    <div className="n">{t.n}</div>
+                    <div className="loc">{t.loc}</div>
+                  </div>
+                  <div className="metric">
+                    <div className="v">{t.v}</div>
+                    <div className="l">{t.l}</div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="activity-feed">
+            <h3>{tx("פעילות חיה ברשת", "Live network activity")}</h3>
+            {activity.map((a, i) => (
+              <div className="act-row" key={i}>
+                <div className={"ico " + a.c}>{a.icon}</div>
+                <div className="text">{tx(a.he, a.en)}</div>
+                <div className="time">{tx(a.time_he, a.time_en)}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+window.SuperAdminScreen = SuperAdminScreen;
+
+  </script>
+
+  <script type="text/babel" data-presets="react">
+// Top-level app shell — bilingual
+const Shell = () => {
+  const tx = useTx();
+  const { lang, setLang } = useLang();
+  const [tab, setTab] = React.useState("kiosk");
+
+  // Reflect language on <html> so dir-aware CSS works
+  React.useEffect(() => {
+    document.documentElement.dir = lang === "he" ? "rtl" : "ltr";
+    document.documentElement.lang = lang;
+  }, [lang]);
+
+  const tabs = [
+    { id: "kiosk", icon: <I.Board />, he: "לוח קהילתי", en: "Community Board" },
+    { id: "member", icon: <I.User />, he: "מסך החבר", en: "Member View" },
+    { id: "admin", icon: <I.Settings />, he: "ניהול קהילה", en: "Admin" },
+    { id: "super", icon: <I.Globe />, he: "מסך-העל · המחלקה", en: "Super-Admin · Dept." },
+  ];
+
+  const tenant = {
+    kiosk: { he: { n: "קהילת אהבת ישראל", w: "לונדון" }, en: { n: "Ahavat Yisrael", w: "London" } },
+    member: { he: { n: "קהילת אהבת ישראל", w: "לונדון" }, en: { n: "Ahavat Yisrael", w: "London" } },
+    admin: { he: { n: "קהילת אהבת ישראל", w: "לונדון" }, en: { n: "Ahavat Yisrael", w: "London" } },
+    super: { he: { n: "כל הקהילות", w: "רשת המחלקה — תפוצות" }, en: { n: "All communities", w: "Diaspora Department network" } },
+  }[tab];
+
+  const t = tx(tenant.he, tenant.en);
+
+  return (
+    <div className="app-shell">
+      <header className="app-topbar">
+        <div className="topbar-inner">
+          <div className="brand-mark">
+            <div className="star">
+              <I.StarOfDavid width="22" height="22" />
+            </div>
+            <div className="text-block">
+              <div className="dept">
+                {tx(
+                  "המחלקה לגיוס משאבים וחיזוק הקשר עם קהילות בתפוצות",
+                  "Department for Resource Development & Diaspora Communities"
+                )}
+              </div>
+              <div className="umbrella">
+                {tx(
+                  "ההסתדרות הציונית העולמית",
+                  "World Zionist Organization"
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="product-name">
+            {tx("קֶשֶׁר · ", "Kesher · ")}<span>{tx("CRM קהילתי", "Community CRM")}</span>
+          </div>
+
+          <nav className="tabs" role="tablist">
+            {tabs.map((tb) => (
+              <button
+                key={tb.id}
+                role="tab"
+                aria-selected={tab === tb.id}
+                className={"tab " + (tab === tb.id ? "active" : "")}
+                onClick={() => setTab(tb.id)}
+              >
+                <span className="tab-icon">{tb.icon}</span>
+                <span>{tx(tb.he, tb.en)}</span>
+              </button>
+            ))}
+          </nav>
+
+          <div className="topbar-right">
+            <div className="lang-toggle" role="group" aria-label="Language">
+              <button
+                className={lang === "he" ? "active" : ""}
+                onClick={() => setLang("he")}
+                aria-pressed={lang === "he"}
+              >עברית</button>
+              <button
+                className={lang === "en" ? "active" : ""}
+                onClick={() => setLang("en")}
+                aria-pressed={lang === "en"}
+              >English</button>
+            </div>
+            <div className="tenant-switcher">
+              <span className="dot"></span>
+              <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.1 }}>
+                <span style={{ fontSize: 12.5 }}>{t.n}</span>
+                <span style={{ fontSize: 11, color: "var(--c-text-muted)", fontWeight: 500 }}>{t.w}</span>
+              </div>
+              <I.Arrow style={{ transform: "rotate(-90deg)" }} />
+            </div>
+            <button className="icon-btn" aria-label={tx("התראות", "Notifications")}>
+              <I.Bell />
+              <span className="pip"></span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main style={{ flex: 1 }}>
+        {tab === "kiosk" && <KioskScreen />}
+        {tab === "member" && <MemberScreen />}
+        {tab === "admin" && <AdminScreen />}
+        {tab === "super" && <SuperAdminScreen />}
+      </main>
+
+      <footer className="app-footer">
+        <div className="left">
+          <span className="pill">{tx("אב-טיפוס · DEMO", "PROTOTYPE · DEMO")}</span>
+          <span>
+            {tx(
+              "קֶשֶׁר — CRM קהילתי של המחלקה לגיוס משאבים וחיזוק הקשר עם קהילות בתפוצות · ההסתדרות הציונית העולמית",
+              "Kesher — Community CRM by the Department for Resource Development & Diaspora Communities · World Zionist Organization"
+            )}
+          </span>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <span style={{ opacity: 0.75 }}>
+            {tx("דו-לשוני · עברית 🇮🇱 / English 🇬🇧 · RTL ↔ LTR", "Bilingual · Hebrew 🇮🇱 / English 🇬🇧 · RTL ↔ LTR")}
+          </span>
+          <span className="tech-partner" title={tx("שם השותף הטכנולוגי — דב יאמת את האיות הסופי", "Tech partner name — Dov to confirm final spelling")}>
+            <span className="ph-dot"></span>
+            {tx("מבית", "Built by")}
+            <strong style={{ color: "#fff", fontWeight: 800 }}>
+              {tx("הלך / הלר דיגיטל", "Halech / Heller Digital")}
+            </strong>
+            <span className="ph-tag">{tx("לאימות", "TBC")}</span>
+          </span>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+const App = () => {
+  const [lang, setLang] = React.useState("he");
+  return (
+    <LangContext.Provider value={{ lang, setLang }}>
+      <Shell />
+    </LangContext.Provider>
+  );
+};
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+
+  </script>
+</body>
+</html>
